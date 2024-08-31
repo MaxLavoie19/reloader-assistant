@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     BrassSection: typeof import('./src/components/BrassSection.vue')['default']
+    BulletSection: typeof import('./src/components/BulletSection.vue')['default']
     ChamberSection: typeof import('./src/components/ChamberSection.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     Recipe: typeof import('./src/components/Recipe.vue')['default']

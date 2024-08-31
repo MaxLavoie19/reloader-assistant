@@ -1,4 +1,4 @@
-import { caliber6_5mm, winchester308 } from "@/data/caliber";
+import { caliber6_5mm, caliber7_62 } from "@/data/caliber";
 import { IChambering } from "@/models/IChambering";
 
 export const creedmoor6_5Chambering: IChambering = {
@@ -9,6 +9,6 @@ export const creedmoor6_5Chambering: IChambering = {
 
 export const winchester308Chambering: IChambering = {
   id: "308 winchester ID",
-  caliber: winchester308,
+  caliber: caliber7_62,
   name: "308 Winchester"
 }

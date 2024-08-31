@@ -21,97 +21,12 @@
       @update:model-value="updateBrass"
     ></brass-section>
 
-    <v-row v-if="!isAddingBullet">
-      <v-col cols="10">
-        <v-autocomplete
-          label="Balle"
-          :items="bullets"
-          v-model="editedRecipe.bullet.id"
-        ></v-autocomplete>
-      </v-col>
-      <v-col cols="2">
-        <v-btn
-          class="create-button"
-          icon="mdi-plus"
-          @click="addBullet()"
-        ></v-btn>
-      </v-col>
-    </v-row>
-    <v-row v-if="isAddingBullet">
-      <v-col cols="12" class="section-separator">Balle</v-col>
-    </v-row>
-    <v-row v-if="isAddingBullet && !isAddingBulletManufacturer">
-      <v-col cols="1"></v-col>
-      <v-col cols="9">
-        <v-autocomplete
-          label="Fabriquant de balle"
-          :items="bulletManufacturers"
-          v-model="editedRecipe.bullet.manufacturer.name"
-        ></v-autocomplete>
-      </v-col>
-      <v-col cols="2">
-        <v-btn
-          class="create-button"
-          icon="mdi-plus"
-          @click="addBulletManufacturer()"
-        ></v-btn>
-      </v-col>
-    </v-row>
-    <v-row v-if="isAddingBullet && isAddingBulletManufacturer">
-      <v-col cols="1"></v-col>
-      <v-col cols="11">
-        <v-text-field
-          label="Nom du fabriquant de balles"
-          v-model="editedRecipe.bullet.manufacturer.name"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-    <v-row v-if="isAddingBullet">
-      <v-col cols="1"></v-col>
-      <v-col cols="11">
-        <v-text-field
-          label="Nom du modèle de balle"
-          v-model="editedRecipe.bullet.model"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-    <v-row v-if="isAddingBullet">
-      <v-col cols="1"></v-col>
-      <v-col cols="11">
-        <v-text-field
-          label="Poids de la balle"
-          suffix="mm"
-          v-model="editedRecipe.bullet.weightInGrains"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-    <v-row v-if="isAddingBullet">
-      <v-col cols="1"></v-col>
-      <v-col cols="11">
-        <v-text-field
-          label="Coefficien ballistique G1"
-          v-model="editedRecipe.bullet.g1BallisticCoefficient"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-    <v-row v-if="isAddingBullet">
-      <v-col cols="1"></v-col>
-      <v-col cols="11">
-        <v-text-field
-          label="Coefficien ballistique G7"
-          v-model="editedRecipe.bullet.g1BallisticCoefficient"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-    <v-row v-if="isAddingBullet">
-      <v-col cols="1"></v-col>
-      <v-col cols="11">
-        <v-text-field
-          label="Densitée de section"
-          v-model="editedRecipe.bullet.sectionalDensity"
-        ></v-text-field>
-      </v-col>
-    </v-row>
+    <bullet-section
+      v-if="chamberingValue.caliber"
+      v-model="bulletValue"
+      :caliberValue="chamberingValue.caliber"
+      @update:model-value="updateBullet"
+    ></bullet-section>
 
     <v-row v-if="!isAddingPrimer">
       <v-col cols="10">
@@ -293,6 +208,7 @@
   import { IRecipe } from '@/models/IRecipe';
   import { IChambering } from '@/models/IChambering';
   import { IBrass } from '@/models/IBrass';
+import { IBullet } from '@/models/IBullet';
 
   const emit = defineEmits(['save'])
 
@@ -303,16 +219,13 @@
   const editedRecipe = ref<IRecipe>();
   const chamberingValue = ref<IChambering>();
   const brassValue = ref<IBrass>();
+  const bulletValue = ref<IBullet>();
 
-  const bullets = ref<string[]>([]);
-  const bulletManufacturers = ref<string[]>([]);
   const primers = ref<string[]>([]);
   const primerManufacturers = ref<string[]>([]);
   const powders = ref<string[]>([]);
   const powderManufacturers = ref<string[]>([]);
 
-  const isAddingBullet = ref(false);
-  const isAddingBulletManufacturer = ref(false);
   const isAddingPrimer = ref(false);
   const isAddingPrimerManufacturer = ref(false);
   const isAddingPowder = ref(false);
@@ -330,20 +243,16 @@
 
   }
 
+  function updateBullet() {
+
+  }
+
   function getRecipeChambering(recipe: IRecipe): IChambering | undefined {
     if (recipe.brass.chambering) return recipe.brass.chambering;
     return undefined;
   }
 
   function updateChambering() {
-  }
-
-  function addBullet() {
-    isAddingBullet.value = true;
-  }
-
-  function addBulletManufacturer() {
-    isAddingBulletManufacturer.value = true;
   }
 
   function addPrimer() {
