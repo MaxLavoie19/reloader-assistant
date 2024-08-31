@@ -81,7 +81,7 @@
 
   onMounted(() => {
     if (!model.value) {
-      model.value = brassService.getBlankBrass(props.chamberingValue)
+      model.value = brassService.getBlankBrass(props.chamberingValue);
     }
     setBrassItems(model.value);
   });

@@ -22,75 +22,17 @@
     ></brass-section>
 
     <bullet-section
-      v-if="chamberingValue.caliber"
+      v-if="chamberingValue && chamberingValue.caliber"
       v-model="bulletValue"
       :caliberValue="chamberingValue.caliber"
       @update:model-value="updateBullet"
     ></bullet-section>
 
-    <v-row v-if="!isAddingPrimer">
-      <v-col cols="10">
-        <v-autocomplete
-          label="Primer"
-          :items="primers"
-          v-model="editedRecipe.primer.id"
-        ></v-autocomplete>
-      </v-col>
-      <v-col cols="2">
-        <v-btn
-          class="create-button"
-          icon="mdi-plus"
-          @click="addPrimer()"
-        ></v-btn>
-      </v-col>
-    </v-row>
-    <v-row v-if="isAddingPrimer">
-      <v-col cols="12" class="section-separator">Primer</v-col>
-    </v-row>
-    <v-row v-if="isAddingPrimer && !isAddingPrimerManufacturer">
-      <v-col cols="1"></v-col>
-      <v-col cols="9">
-        <v-autocomplete
-          label="Fabriquant de primer"
-          :items="primerManufacturers"
-          v-model="editedRecipe.primer.manufacturer.name"
-        ></v-autocomplete>
-      </v-col>
-      <v-col cols="2">
-        <v-btn
-          class="create-button"
-          icon="mdi-plus"
-          @click="addPrimerManufacturer()"
-        ></v-btn>
-      </v-col>
-    </v-row>
-    <v-row v-if="isAddingPrimer && isAddingPrimerManufacturer">
-      <v-col cols="1"></v-col>
-      <v-col cols="11">
-        <v-text-field
-          label="Fabriquant de primer"
-          v-model="editedRecipe.primer.manufacturer.name"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-    <v-row v-if="isAddingPrimer">
-      <v-col cols="1"></v-col>
-      <v-col cols="11">
-        <v-text-field
-          label="Modèle de primer"
-          v-model="editedRecipe.primer.name"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-    <v-row v-if="isAddingPrimer">
-      <v-col cols="1"></v-col>
-      <v-col cols="11">
-        <v-text-field
-          label="taille de primer"
-          v-model="editedRecipe.primer.size"
-        ></v-text-field>
-      </v-col>
-    </v-row>
+    <primer-section
+      v-if="chamberingValue"
+      v-model="primerValue"
+      @update:model-value="updatePrimer"
+    ></primer-section>
 
     <v-row v-if="!isAddingPowder">
       <v-col cols="10">
@@ -203,86 +145,80 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue';
-  import { uuid } from 'vue-uuid';
-  import { IRecipe } from '@/models/IRecipe';
-  import { IChambering } from '@/models/IChambering';
-  import { IBrass } from '@/models/IBrass';
+import { ref, onMounted } from 'vue';
+import { uuid } from 'vue-uuid';
+import { IRecipe } from '@/models/IRecipe';
+import { IChambering } from '@/models/IChambering';
+import { IBrass } from '@/models/IBrass';
 import { IBullet } from '@/models/IBullet';
+import { IPrimer } from '@/models/IPrimer';
 
-  const emit = defineEmits(['save'])
+const emit = defineEmits(['save'])
 
-  const props = defineProps<{
-    recipe: IRecipe,
-  }>();
+const props = defineProps<{
+  recipe: IRecipe,
+}>();
 
-  const editedRecipe = ref<IRecipe>();
-  const chamberingValue = ref<IChambering>();
-  const brassValue = ref<IBrass>();
-  const bulletValue = ref<IBullet>();
+const editedRecipe = ref<IRecipe>();
+const chamberingValue = ref<IChambering>();
+const brassValue = ref<IBrass>();
+const bulletValue = ref<IBullet>();
+const primerValue = ref<IPrimer>();
 
-  const primers = ref<string[]>([]);
-  const primerManufacturers = ref<string[]>([]);
-  const powders = ref<string[]>([]);
-  const powderManufacturers = ref<string[]>([]);
+const powders = ref<string[]>([]);
+const powderManufacturers = ref<string[]>([]);
 
-  const isAddingPrimer = ref(false);
-  const isAddingPrimerManufacturer = ref(false);
-  const isAddingPowder = ref(false);
-  const isAddingPowderManufacturer = ref(false);
+const isAddingPowder = ref(false);
+const isAddingPowderManufacturer = ref(false);
 
-  onMounted(() => {
-    const recipe = JSON.parse(JSON.stringify(props.recipe)) as IRecipe;
-    if (!recipe) throw new Error("Recipe undefined");
+onMounted(() => {
+  const recipe = JSON.parse(JSON.stringify(props.recipe)) as IRecipe;
+  if (!recipe) throw new Error("Recipe undefined");
 
-    editedRecipe.value = recipe;
-    chamberingValue.value = getRecipeChambering(recipe);
-  });
+  editedRecipe.value = recipe;
+  chamberingValue.value = getRecipeChambering(recipe);
+});
 
-  function updateBrass() {
+function updateBrass() {
 
+}
+
+function updateBullet() {
+
+}
+
+function updatePrimer() {
+
+}
+
+function getRecipeChambering(recipe: IRecipe): IChambering | undefined {
+  if (recipe.brass.chambering) return recipe.brass.chambering;
+  return undefined;
+}
+
+function updateChambering() {
+}
+
+function addPowder() {
+  isAddingPowder.value = true;
+}
+
+function addPowderManufacturer() {
+  isAddingPowderManufacturer.value = true;
+}
+
+function save() {
+  // TODO: validate that all fields are set
+  const recipe = editedRecipe.value;
+  if (!recipe) return;
+
+  if (!recipe?.id) {
+    recipe.id = uuid.v4()
   }
 
-  function updateBullet() {
-
-  }
-
-  function getRecipeChambering(recipe: IRecipe): IChambering | undefined {
-    if (recipe.brass.chambering) return recipe.brass.chambering;
-    return undefined;
-  }
-
-  function updateChambering() {
-  }
-
-  function addPrimer() {
-    isAddingPrimer.value = true;
-  }
-
-  function addPrimerManufacturer() {
-    isAddingPrimerManufacturer.value = true;
-  }
-
-  function addPowder() {
-    isAddingPowder.value = true;
-  }
-
-  function addPowderManufacturer() {
-    isAddingPowderManufacturer.value = true;
-  }
-
-  function save() {
-    // TODO: validate that all fields are set
-    const recipe = editedRecipe.value;
-    if (!recipe) return;
-
-    if (!recipe?.id) {
-      recipe.id = uuid.v4()
-    }
-
-    console.log(JSON.stringify(recipe, undefined, 2));
-    emit('save', recipe);
-  }
+  console.log(JSON.stringify(recipe, undefined, 2));
+  emit('save', recipe);
+}
 </script>
 
 <style lang="scss" scoped>

@@ -19,6 +19,8 @@ import { BrassService } from '@/services/BrassService';
 import { IBrassService } from '@/services/IBrassService';
 import { BulletService } from '@/services/BulletService';
 import { IBulletService } from '@/services/IBulletService';
+import { PrimerService } from '@/services/PrimerService';
+import { IPrimerService } from '@/services/IPrimerService';
 
 const chamberingService = new ChamberingService();
 provide<IChamberingService>('chamberingService', chamberingService);
@@ -31,6 +33,9 @@ provide<IRecipeService>('recipeService', recipeService);
 
 const bulletService = new BulletService();
 provide<IBulletService>('bulletService', bulletService);
+
+const primerService = new PrimerService();
+provide<IPrimerService>('primerService', primerService);
 
 </script>
 

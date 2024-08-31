@@ -11,6 +11,8 @@ declare module 'vue' {
     BulletSection: typeof import('./src/components/BulletSection.vue')['default']
     ChamberSection: typeof import('./src/components/ChamberSection.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    PrimerSection: typeof import('./src/components/PrimerSection.vue')['default']
+    PrimerSerction: typeof import('./src/components/PrimerSerction.vue')['default']
     Recipe: typeof import('./src/components/Recipe.vue')['default']
     RecipeForm: typeof import('./src/components/RecipeForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
