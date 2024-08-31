@@ -14,51 +14,12 @@
       @update:model-value="updateChambering"
     ></chamber-section>
 
-    <v-row  v-if="!isAddingBrass">
-      <v-col cols="10">
-        <v-autocomplete
-          label="Brass"
-          :items="filteredBrassItems"
-          v-model="brassValue"
-        ></v-autocomplete>
-      </v-col>
-      <v-col cols="2">
-        <v-btn
-          class="create-button"
-          icon="mdi-plus"
-          @click="addBrass()"
-        ></v-btn>
-      </v-col>
-    </v-row>
-    <v-row  v-if="isAddingBrass">
-      <v-col cols="12" class="section-separator">Brass</v-col>
-    </v-row>
-    <v-row  v-if="isAddingBrass && !isAddingBrassManufacturer">
-      <v-col cols="1"></v-col>
-      <v-col cols="9">
-        <v-autocomplete
-          label="Fabriquant de Brass"
-          :items="brassManufacturers"
-          v-model="editedRecipe.brass.manufacturer.name"
-        ></v-autocomplete>
-      </v-col>
-      <v-col cols="2">
-        <v-btn
-          class="create-button"
-          icon="mdi-plus"
-          @click="addBrassManufacturer()"
-        ></v-btn>
-      </v-col>
-    </v-row>
-    <v-row  v-if="isAddingBrass && isAddingBrassManufacturer">
-      <v-col cols="1"></v-col>
-      <v-col cols="11">
-        <v-text-field
-          label="Nom du fabriquant de brass"
-          v-model="editedRecipe.brass.manufacturer.name"
-        ></v-text-field>
-      </v-col>
-    </v-row>
+    <brass-section
+      v-if="chamberingValue?.id"
+      v-model="brassValue"
+      :chamberingValue="chamberingValue"
+      @update:model-value="updateBrass"
+    ></brass-section>
 
     <v-row v-if="!isAddingBullet">
       <v-col cols="10">
@@ -327,16 +288,13 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted, inject } from 'vue';
+  import { ref, onMounted } from 'vue';
   import { uuid } from 'vue-uuid';
   import { IRecipe } from '@/models/IRecipe';
   import { IChambering } from '@/models/IChambering';
-  import { IAutocompleteItem } from '@/models/IAutocompleteItem';
   import { IBrass } from '@/models/IBrass';
-  import { IBrassService } from '@/services/IBrassService';
 
   const emit = defineEmits(['save'])
-  const brassService = inject<IBrassService>('brassService') as IBrassService;
 
   const props = defineProps<{
     recipe: IRecipe,
@@ -345,18 +303,14 @@
   const editedRecipe = ref<IRecipe>();
   const chamberingValue = ref<IChambering>();
   const brassValue = ref<IBrass>();
-  const brassItems = ref<IAutocompleteItem<IBrass>[]>([]);
-  const filteredBrassItems = ref<IAutocompleteItem<IBrass>[]>([]);
 
-  const brassManufacturers = ref<string[]>([]);
   const bullets = ref<string[]>([]);
   const bulletManufacturers = ref<string[]>([]);
   const primers = ref<string[]>([]);
   const primerManufacturers = ref<string[]>([]);
   const powders = ref<string[]>([]);
   const powderManufacturers = ref<string[]>([]);
-  const isAddingBrass = ref(false);
-  const isAddingBrassManufacturer = ref(false);
+
   const isAddingBullet = ref(false);
   const isAddingBulletManufacturer = ref(false);
   const isAddingPrimer = ref(false);
@@ -370,45 +324,10 @@
 
     editedRecipe.value = recipe;
     chamberingValue.value = getRecipeChambering(recipe);
-    setBrassItems(recipe.brass);
   });
 
-  async function setBrassItems(brass?: IBrass) {
-    brassItems.value = await brassService.getBrasses().then((brasses) => {
-      const brassItems = brasses.map((brass): IAutocompleteItem<IBrass> => {
-        return {title: `${brass.manufacturer.name} ${brass.chambering.name}`, value: brass}
-      });
+  function updateBrass() {
 
-      if (brass) {
-        brassValue.value = brassItems.find(item => {
-          return item.value.id === brass.id;
-        })?.value;
-      }
-
-      return brassItems
-    });
-
-    filterBrasses()
-  }
-
-  function updateChambering() {
-    brassValue.value = undefined;
-    setTimeout(() => {
-      filterBrasses();
-    }, 0);
-  }
-
-  function filterBrasses() {
-    const chamberingId = chamberingValue.value?.id;
-
-    if (!chamberingId) {
-      filteredBrassItems.value = brassItems.value;
-      return;
-    }
-
-    filteredBrassItems.value = brassItems.value.filter((brassItem) => {
-      return brassItem.value.chambering.id === chamberingId;
-    });
   }
 
   function getRecipeChambering(recipe: IRecipe): IChambering | undefined {
@@ -416,12 +335,7 @@
     return undefined;
   }
 
-  function addBrass() {
-    isAddingBrass.value = true;
-  }
-
-  function addBrassManufacturer() {
-    isAddingBrassManufacturer.value = true;
+  function updateChambering() {
   }
 
   function addBullet() {
