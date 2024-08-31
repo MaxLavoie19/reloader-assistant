@@ -13,4 +13,11 @@ export class RecipeService implements IRecipeService {
     return [recipeA, ];
   }
 
+  public saveRecipe(): void {
+
+  }
+
+  public recipeToQr(): void {
+
+  }
 }
