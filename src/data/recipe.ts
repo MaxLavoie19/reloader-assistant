@@ -1,4 +1,4 @@
-import { brass6_5Creedmoor } from "@/data/brass";
+import { creedmoor6_5Brass } from "@/data/brass";
 import { bullet6_5 } from "@/data/bullet";
 import { powder } from "@/data/powder";
 import { largePrimer } from "@/data/primer";
@@ -7,7 +7,7 @@ import { IRecipe } from "@/models/IRecipe";
 export const recipeA: IRecipe = {
   id: "a0ee1885-9d81-42ba-aa2d-6adbb45a0c13",
   name: "first",
-  brass: brass6_5Creedmoor,
+  brass: creedmoor6_5Brass,
   bullet: bullet6_5,
   primer: largePrimer,
   powder: powder,
@@ -17,7 +17,7 @@ export const recipeA: IRecipe = {
 export const recipeB: IRecipe = {
   id: "0bd6bd7d-ce7b-49cc-8a1e-eb4df9559861",
   name: "second",
-  brass: brass6_5Creedmoor,
+  brass: creedmoor6_5Brass,
   bullet: bullet6_5,
   primer: largePrimer,
   powder: powder,

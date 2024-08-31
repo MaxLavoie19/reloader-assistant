@@ -12,9 +12,20 @@
 import { RouterView } from 'vue-router';
 import { RecipeService } from '@/services/RecipeService'
 import { provide } from 'vue';
+import { ChamberingService } from '@/services/ChamberingService';
+import { IRecipeService } from '@/services/IRecipeService';
+import { IChamberingService } from '@/services/IChamberingService';
+import { BrassService } from '@/services/BrassService';
+import { IBrassService } from '@/services/IBrassService';
+
+const chamberingService = new ChamberingService();
+provide<IChamberingService>('chamberingService', chamberingService);
+
+const brassService = new BrassService();
+provide<IBrassService>('brassService', brassService);
 
 const recipeService = new RecipeService();
-provide('recipeService', recipeService);
+provide<IRecipeService>('recipeService', recipeService);
 
 </script>
 

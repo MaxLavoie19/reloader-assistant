@@ -12,6 +12,7 @@
     "vue": "^3.3.0",
     "vue-route": "^1.5.1",
     "vue-router": "^4.4.3",
+    "vue-uuid": "^3.0.0",
     "vuetify": "^3.0.0"
   },
   "devDependencies": {

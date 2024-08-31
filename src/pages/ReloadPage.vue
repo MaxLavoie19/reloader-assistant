@@ -16,7 +16,7 @@
           <v-icon >mdi-plus</v-icon>
         </v-btn>
         <div v-if="isEditingRecipe && editedRecipe" class="form-container">
-          <recipeForm :recipe="editedRecipe"></recipeForm>
+          <recipeForm :recipe="editedRecipe" @save="saveRecipe"></recipeForm>
         </div>
       </div>
     </v-sheet>
@@ -48,6 +48,10 @@ function addRecipe() {
 function editRecipe(recipe: IRecipe) {
   isEditingRecipe.value = true;
   editedRecipe.value = recipe;
+}
+
+function saveRecipe(recipe: IRecipe) {
+  recipeService.saveRecipe(recipe)
 }
 
 </script>
