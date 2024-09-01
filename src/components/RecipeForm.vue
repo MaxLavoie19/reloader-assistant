@@ -40,41 +40,41 @@
 
     <v-row>
       <v-col cols="12">
-        <v-text-field
+        <v-number-input
           label="Quantité de poudre"
-          v-mode="editedRecipe.powderQuantityGrains"
+          v-model="editedRecipe.powderQuantityGrains"
           suffix="grains"
-        ></v-text-field>
+        ></v-number-input>
       </v-col>
     </v-row>
 
     <v-row>
       <v-col cols="12">
-        <v-text-field
+        <v-number-input
           label="Seating depth"
-          v-mode="editedRecipe.bulletSeatingDepth"
+          v-model="editedRecipe.bulletSeatingDepth"
           suffix="mm"
-        ></v-text-field>
+        ></v-number-input>
       </v-col>
     </v-row>
 
     <v-row>
       <v-col cols="12">
-        <v-text-field
+        <v-number-input
           label="Cartridge Overall Length (COL)"
-          v-mode="editedRecipe.cartridgeOveralLengthMm"
+          v-model="editedRecipe.cartridgeOveralLengthMm"
           suffix="mm"
-        ></v-text-field>
+        ></v-number-input>
       </v-col>
     </v-row>
 
     <v-row>
       <v-col cols="12">
-        <v-text-field
+        <v-number-input
           label="Base To Ogive Length (BTOL)"
-          v-mode="editedRecipe.cartridgeBaseToOgiveLengthMm"
+          v-model="editedRecipe.cartridgeBaseToOgiveLengthMm"
           suffix="mm"
-        ></v-text-field>
+        ></v-number-input>
       </v-col>
     </v-row>
 
@@ -95,6 +95,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { VNumberInput } from 'vuetify/labs/VNumberInput'
+
 import { uuid } from 'vue-uuid';
 import { IRecipe } from '@/models/IRecipe';
 import { IChambering } from '@/models/IChambering';
@@ -151,11 +153,21 @@ function getRecipeChambering(recipe: IRecipe): IChambering | undefined {
 function save() {
   // TODO: validate that all fields are set
   const recipe = editedRecipe.value;
-  if (!recipe) return;
+  const brass = brassValue.value;
+  const bullet = bulletValue.value;
+  const primer = primerValue.value;
+  const powder = powderValue.value;
+
+  if (!recipe || !brass || !bullet || !primer || !powder) return;
 
   if (!recipe?.id) {
     recipe.id = uuid.v4()
   }
+
+  recipe.brass = brass;
+  recipe.bullet = bullet;
+  recipe.primer = primer;
+  recipe.powder = powder;
 
   console.log(JSON.stringify(recipe, undefined, 2));
   emit('save', recipe);
