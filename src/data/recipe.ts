@@ -11,7 +11,9 @@ export const recipeA: IRecipe = {
   bullet: bullet6_5,
   primer: largePrimer,
   powder: powder,
-  powderQuantityGrains: 36,
+  minPowderQuantityGrains: 37,
+  maxPowderQuantityGrains: 40,
+  notes: "",
 }
 
 export const recipeB: IRecipe = {
@@ -21,13 +23,15 @@ export const recipeB: IRecipe = {
   bullet: bullet6_5,
   primer: largePrimer,
   powder: powder,
-  powderQuantityGrains: 37,
+  minPowderQuantityGrains: 37,
+  maxPowderQuantityGrains: 40,
   bulletSeatingDepth: 5,
   cartridgeBaseToOgiveLengthMm: 123,
   cartridgeOveralLengthMm: 140,
+  notes: "my notes 123",
 }
 
-export const emptyRecipe: IRecipe = {
+export const blankRecipe: IRecipe = {
   id: "",
   name: "",
   brass: {
@@ -72,8 +76,10 @@ export const emptyRecipe: IRecipe = {
       name: ""
     }
   },
-  powderQuantityGrains: 0.0,
+  minPowderQuantityGrains: 0,
+  maxPowderQuantityGrains: 0,
   bulletSeatingDepth: 0.0,
   cartridgeOveralLengthMm: 0.0,
   cartridgeBaseToOgiveLengthMm: 0.0,
+  notes: "",
 };

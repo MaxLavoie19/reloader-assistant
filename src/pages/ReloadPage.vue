@@ -42,7 +42,7 @@ recipes.value = recipeRepository.getRecipes();
 
 function addRecipe() {
   isEditingRecipe.value = true;
-  editedRecipe.value = recipeRepository.getEmptyRecipe();
+  editedRecipe.value = recipeRepository.getBlankRecipe();
 }
 
 function editRecipe(recipe: IRecipe) {
