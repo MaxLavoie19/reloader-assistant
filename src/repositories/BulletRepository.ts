@@ -1,10 +1,10 @@
 import { bullet6_5, bullet7_62 } from "@/data/bullet";
 import { IBullet } from "@/models/IBullet";
 import { ICaliber } from "@/models/ICaliber";
-import { IBulletService } from "@/services/IBulletService";
+import { IBulletRepository } from "@/repositories/IBulletRepository";
 import { uuid } from 'vue-uuid';
 
-export class BulletService implements IBulletService {
+export class BulletRepository implements IBulletRepository {
 
   public async getBullets(): Promise<IBullet[]> {
     return Promise.resolve([bullet6_5, bullet7_62]);

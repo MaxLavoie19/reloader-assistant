@@ -10,15 +10,14 @@
 
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
-import { RecipeService } from '@/services/RecipeService'
+import { RecipeRepository } from '@/repositories/RecipeRepository'
 import { provide } from 'vue';
 import { ChamberingRepository } from '@/repositories/ChamberingRepository';
-import { IRecipeService } from '@/services/IRecipeService';
+import { IRecipeRepository } from '@/repositories/IRecipeRepository';
 import { IChamberingRepository } from '@/repositories/IChamberingRepository';
 import { BrassRepository } from '@/repositories/BrassRepository';
 import { IBrassRepository } from '@/repositories/IBrassRepository';
-import { BulletService } from '@/services/BulletService';
-import { IBulletService } from '@/services/IBulletService';
+import { IBulletRepository } from '@/repositories/IBulletRepository';
 import { PrimerService } from '@/services/PrimerService';
 import { IPrimerService } from '@/services/IPrimerService';
 import { IPowderService } from '@/services/IPowderService';
@@ -35,6 +34,9 @@ import { IManufacturerRepository } from '@/repositories/IManufacturerRepository'
 import { ManufacturerRepository } from '@/repositories/ManufacturerRepository';
 import { ManufacturerAutocompleteMapper } from '@/mappers/ManufacturerAutocompleteMapper';
 import { IManufacturerAutocompleteMapper } from '@/mappers/IManufacturerAutocompleteMapper';
+import { BulletRepository } from '@/repositories/BulletRepository';
+import { BulletAutocompleteMapper } from '@/mappers/BulletAutocompleteMapper';
+import { IBulletAutocompleteMapper } from '@/mappers/IBulletAutocompleteMapper';
 
 const caliberRepository = new CaliberRepository();
 provide<ICaliberRepository>('caliberRepository', caliberRepository);
@@ -56,13 +58,15 @@ provide<IManufacturerRepository>('manufacturerRepository', manufacturerRepositor
 const manufacturerAutocompleteMapper = new ManufacturerAutocompleteMapper();
 provide<IManufacturerAutocompleteMapper>('manufacturerAutocompleteMapper', manufacturerAutocompleteMapper);
 
+const recipeRepository = new RecipeRepository();
+provide<IRecipeRepository>('recipeRepository', recipeRepository);
+
+const bulletRepository = new BulletRepository();
+provide<IBulletRepository>('bulletRepository', bulletRepository);
+const bulletAutocompleteMapper = new BulletAutocompleteMapper();
+provide<IBulletAutocompleteMapper>('bulletAutocompleteMapper', bulletAutocompleteMapper);
+
 // TODO: those services are repositories, refactor them
-const recipeService = new RecipeService();
-provide<IRecipeService>('recipeService', recipeService);
-
-const bulletService = new BulletService();
-provide<IBulletService>('bulletService', bulletService);
-
 const primerService = new PrimerService();
 provide<IPrimerService>('primerService', primerService);
 

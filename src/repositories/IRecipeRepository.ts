@@ -1,6 +1,6 @@
 import { IRecipe } from "@/models/IRecipe";
 
-export interface IRecipeService {
+export interface IRecipeRepository {
   getRecipes(): IRecipe[];
   getEmptyRecipe(): IRecipe;
   saveRecipe(recipe: IRecipe): void;

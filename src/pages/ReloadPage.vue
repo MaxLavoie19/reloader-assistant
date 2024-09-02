@@ -29,20 +29,20 @@ import { inject, ref } from "vue";
 
 import recipeVue from "@/components/Recipe.vue";
 import recipeForm from "@/components/RecipeForm.vue";
-import { IRecipeService } from "@/services/IRecipeService";
+import { IRecipeRepository } from "@/repositories/IRecipeRepository";
 import { IRecipe } from "@/models/IRecipe";
 
-const recipeService = inject<IRecipeService>('recipeService') as IRecipeService;
+const recipeRepository = inject<IRecipeRepository>('recipeRepository') as IRecipeRepository;
 
 const recipes = ref<IRecipe[]>();
 const isEditingRecipe = ref(false);
 const editedRecipe = ref<IRecipe>();
 
-recipes.value = recipeService.getRecipes();
+recipes.value = recipeRepository.getRecipes();
 
 function addRecipe() {
   isEditingRecipe.value = true;
-  editedRecipe.value = recipeService.getEmptyRecipe();
+  editedRecipe.value = recipeRepository.getEmptyRecipe();
 }
 
 function editRecipe(recipe: IRecipe) {
@@ -51,7 +51,7 @@ function editRecipe(recipe: IRecipe) {
 }
 
 function saveRecipe(recipe: IRecipe) {
-  recipeService.saveRecipe(recipe)
+  recipeRepository.saveRecipe(recipe)
 }
 
 </script>

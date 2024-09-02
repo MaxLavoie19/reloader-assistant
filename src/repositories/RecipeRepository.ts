@@ -1,9 +1,9 @@
 import { emptyRecipe, recipeA } from "@/data/recipe";
 import { IRecipe } from "@/models/IRecipe";
-import { IRecipeService } from "@/services/IRecipeService";
+import { IRecipeRepository } from "@/repositories/IRecipeRepository";
 import { uuid } from 'vue-uuid';
 
-export class RecipeService implements IRecipeService {
+export class RecipeRepository implements IRecipeRepository {
   public constructor() {}
 
   public getEmptyRecipe(): IRecipe {

@@ -1,63 +1,61 @@
 <template>
-  <div>
-    <v-row  v-if="!isAddingChamber">
-      <v-col cols="10">
-        <v-autocomplete
-          label="Chambre"
-          :items="chamberingItems"
-          v-model="model"
-        ></v-autocomplete>
-      </v-col>
-      <v-col cols="2">
-        <v-btn
-          class="create-button"
-          icon="mdi-plus"
-          @click="addChamber()"
-        ></v-btn>
-      </v-col>
-    </v-row>
-    <v-row  v-if="isAddingChamber">
-      <v-col cols="12" class="section-separator">Chambre</v-col>
-    </v-row>
-    <v-row  v-if="isAddingChamber && !isAddingCaliber">
-      <v-col cols="1"></v-col>
-      <v-col cols="9">
-        <v-autocomplete
-          label="Calibre"
-          :items="caliberItems"
-          v-model="caliberValue"
-          @update:model-value="updateCaliber"
-        ></v-autocomplete>
-      </v-col>
-      <v-col cols="2">
-        <v-btn
-          class="create-button"
-          icon="mdi-plus"
-          @click="addCaliber()"
-        ></v-btn>
-      </v-col>
-    </v-row>
-    <v-row  v-if="isAddingChamber && isAddingCaliber && caliberValue">
-      <v-col cols="1"></v-col>
-      <v-col cols="11">
-        <v-text-field
-          label="Nom du calibre"
-          v-model="caliberValue.name"
-          @update:model-value="updateCaliber"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-    <v-row  v-if="isAddingChamber && model">
-      <v-col cols="1"></v-col>
-      <v-col cols="11">
-        <v-text-field
-          label="Nom de la chambre"
-          v-model="model.name"
-          @update:model-value="updateChamber"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-  </div>
+  <v-row  v-if="!isAddingChamber">
+    <v-col cols="10">
+      <v-autocomplete
+        label="Chambre"
+        :items="chamberingItems"
+        v-model="model"
+      ></v-autocomplete>
+    </v-col>
+    <v-col cols="2">
+      <v-btn
+        class="create-button"
+        icon="mdi-plus"
+        @click="addChamber()"
+      ></v-btn>
+    </v-col>
+  </v-row>
+  <v-row  v-if="isAddingChamber">
+    <v-col cols="12" class="section-separator">Chambre</v-col>
+  </v-row>
+  <v-row  v-if="isAddingChamber && !isAddingCaliber">
+    <v-col cols="1"></v-col>
+    <v-col cols="9">
+      <v-autocomplete
+        label="Calibre"
+        :items="caliberItems"
+        v-model="caliberValue"
+        @update:model-value="updateCaliber"
+      ></v-autocomplete>
+    </v-col>
+    <v-col cols="2">
+      <v-btn
+        class="create-button"
+        icon="mdi-plus"
+        @click="addCaliber()"
+      ></v-btn>
+    </v-col>
+  </v-row>
+  <v-row  v-if="isAddingChamber && isAddingCaliber && caliberValue">
+    <v-col cols="1"></v-col>
+    <v-col cols="11">
+      <v-text-field
+        label="Nom du calibre"
+        v-model="caliberValue.name"
+        @update:model-value="updateCaliber"
+      ></v-text-field>
+    </v-col>
+  </v-row>
+  <v-row  v-if="isAddingChamber && model">
+    <v-col cols="1"></v-col>
+    <v-col cols="11">
+      <v-text-field
+        label="Nom de la chambre"
+        v-model="model.name"
+        @update:model-value="updateChamber"
+      ></v-text-field>
+    </v-col>
+  </v-row>
 </template>
 
 <script setup lang="ts">

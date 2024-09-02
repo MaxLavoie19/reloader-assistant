@@ -94,96 +94,96 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { VNumberInput } from 'vuetify/labs/VNumberInput'
+  import { ref, onMounted } from 'vue';
+  import { VNumberInput } from 'vuetify/labs/VNumberInput'
 
-import { uuid } from 'vue-uuid';
-import { IRecipe } from '@/models/IRecipe';
-import { IChambering } from '@/models/IChambering';
-import { IBrass } from '@/models/IBrass';
-import { IBullet } from '@/models/IBullet';
-import { IPrimer } from '@/models/IPrimer';
-import { IPowder } from '@/models/IPowder';
+  import { uuid } from 'vue-uuid';
+  import { IRecipe } from '@/models/IRecipe';
+  import { IChambering } from '@/models/IChambering';
+  import { IBrass } from '@/models/IBrass';
+  import { IBullet } from '@/models/IBullet';
+  import { IPrimer } from '@/models/IPrimer';
+  import { IPowder } from '@/models/IPowder';
 
-const emit = defineEmits(['save'])
+  const emit = defineEmits(['save'])
 
-const props = defineProps<{
-  recipe: IRecipe,
-}>();
+  const props = defineProps<{
+    recipe: IRecipe,
+  }>();
 
-const editedRecipe = ref<IRecipe>();
-const chamberingValue = ref<IChambering>();
-const brassValue = ref<IBrass>();
-const bulletValue = ref<IBullet>();
-const primerValue = ref<IPrimer>();
-const powderValue = ref<IPowder>();
+  const editedRecipe = ref<IRecipe>();
+  const chamberingValue = ref<IChambering>();
+  const brassValue = ref<IBrass>();
+  const bulletValue = ref<IBullet>();
+  const primerValue = ref<IPrimer>();
+  const powderValue = ref<IPowder>();
 
-onMounted(() => {
-  const recipe = JSON.parse(JSON.stringify(props.recipe)) as IRecipe;
-  if (!recipe) throw new Error("Recipe undefined");
+  onMounted(() => {
+    const recipe = JSON.parse(JSON.stringify(props.recipe)) as IRecipe;
+    if (!recipe) throw new Error("Recipe undefined");
 
-  editedRecipe.value = recipe;
-  chamberingValue.value = getRecipeChambering(recipe);
-});
+    editedRecipe.value = recipe;
+    chamberingValue.value = getRecipeChambering(recipe);
+  });
 
-function updateChambering() {
-}
-
-function updateBrass() {
-
-}
-
-function updateBullet() {
-
-}
-
-function updatePrimer() {
-
-}
-
-function updatePowder() {
-
-}
-
-function getRecipeChambering(recipe: IRecipe): IChambering | undefined {
-  if (recipe.brass.chambering) return recipe.brass.chambering;
-  return undefined;
-}
-
-function save() {
-  // TODO: validate that all fields are set
-  const recipe = editedRecipe.value;
-  const brass = brassValue.value;
-  const bullet = bulletValue.value;
-  const primer = primerValue.value;
-  const powder = powderValue.value;
-
-  if (!recipe || !brass || !bullet || !primer || !powder) return;
-
-  if (!recipe?.id) {
-    recipe.id = uuid.v4()
+  function updateChambering() {
   }
 
-  recipe.brass = brass;
-  recipe.bullet = bullet;
-  recipe.primer = primer;
-  recipe.powder = powder;
+  function updateBrass() {
 
-  console.log(JSON.stringify(recipe, undefined, 2));
-  emit('save', recipe);
-}
+  }
+
+  function updateBullet() {
+
+  }
+
+  function updatePrimer() {
+
+  }
+
+  function updatePowder() {
+
+  }
+
+  function getRecipeChambering(recipe: IRecipe): IChambering | undefined {
+    if (recipe.brass.chambering) return recipe.brass.chambering;
+    return undefined;
+  }
+
+  function save() {
+    // TODO: validate that all fields are set
+    const recipe = editedRecipe.value;
+    const brass = brassValue.value;
+    const bullet = bulletValue.value;
+    const primer = primerValue.value;
+    const powder = powderValue.value;
+
+    if (!recipe || !brass || !bullet || !primer || !powder) return;
+
+    if (!recipe?.id) {
+      recipe.id = uuid.v4()
+    }
+
+    recipe.brass = brass;
+    recipe.bullet = bullet;
+    recipe.primer = primer;
+    recipe.powder = powder;
+
+    console.log(JSON.stringify(recipe, undefined, 2));
+    emit('save', recipe);
+  }
 </script>
 
 <style lang="scss" scoped>
-@import "src/styles/theme.scss";
-.section-separator {
-  border-bottom: solid 1px $background-light;
-  margin-bottom: 10px;
-}
+  @import "src/styles/theme.scss";
+  .section-separator {
+    border-bottom: solid 1px $background-light;
+    margin-bottom: 10px;
+  }
 
-.save-button {
-  width: 100%;
-  margin-bottom: 10px;
-  background-color: $background-light;
-}
+  .save-button {
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: $background-light;
+  }
 </style>
