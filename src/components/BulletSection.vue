@@ -173,10 +173,11 @@
   }
 
   function addBulletManufacturer() {
-    isAddingBulletManufacturer.value = true;
     if (!bulletManufacturerValue.value) {
       bulletManufacturerValue.value = manufacturerRepository.getBlankManufacturer();
     }
+
+    isAddingBulletManufacturer.value = true;
   }
 
   async function setManufacturer(): Promise<void> {

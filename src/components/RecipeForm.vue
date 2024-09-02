@@ -41,8 +41,18 @@
     <v-row>
       <v-col cols="12">
         <v-number-input
-          label="Quantité de poudre"
-          v-model="editedRecipe.powderQuantityGrains"
+          label="Quantité de poudre minimale"
+          v-model="editedRecipe.minPowderQuantityGrains"
+          suffix="grains"
+        ></v-number-input>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="12">
+        <v-number-input
+          label="Quantité de poudre maximale"
+          v-model="editedRecipe.maxPowderQuantityGrains"
           suffix="grains"
         ></v-number-input>
       </v-col>
@@ -80,7 +90,7 @@
 
     <v-row>
       <v-col cols="12">
-        <v-textarea label="Notes"></v-textarea>
+        <v-textarea label="Notes" v-model="editedRecipe.notes"></v-textarea>
       </v-col>
     </v-row>
     <v-row>
@@ -160,16 +170,12 @@
 
     if (!recipe || !brass || !bullet || !primer || !powder) return;
 
-    if (!recipe?.id) {
-      recipe.id = uuid.v4()
-    }
-
+    recipe.id = uuid.v4()
     recipe.brass = brass;
     recipe.bullet = bullet;
     recipe.primer = primer;
     recipe.powder = powder;
 
-    console.log(JSON.stringify(recipe, undefined, 2));
     emit('save', recipe);
   }
 </script>

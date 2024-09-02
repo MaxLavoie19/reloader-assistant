@@ -128,10 +128,11 @@
   }
 
   function addPrimerManufacturer() {
-    isAddingPrimerManufacturer.value = true;
     if (!primerManufacturerValue.value) {
       primerManufacturerValue.value = manufacturerRepository.getBlankManufacturer();
     }
+
+    isAddingPrimerManufacturer.value = true;
   }
 
   function updatePrimerManufacturer(): void {

@@ -125,8 +125,11 @@
   }
 
   function addBrassManufacturer(): void {
+    if (!brassManufacturerValue.value) {
+      brassManufacturerValue.value = manufacturerRepository.getBlankManufacturer();
+    }
+
     isAddingBrassManufacturer.value = true;
-    brassManufacturerValue.value = manufacturerRepository.getBlankManufacturer();
   }
 
   async function setManufacturer(): Promise<void> {

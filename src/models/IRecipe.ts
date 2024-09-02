@@ -11,7 +11,9 @@ export interface IRecipe {
   bulletSeatingDepth?: number;
   primer: IPrimer;
   powder: IPowder;
-  powderQuantityGrains: number;
+  minPowderQuantityGrains: number;
+  maxPowderQuantityGrains: number;
   cartridgeOveralLengthMm?: number;
   cartridgeBaseToOgiveLengthMm?: number;
+  notes: string;
 }

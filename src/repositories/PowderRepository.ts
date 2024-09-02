@@ -1,10 +1,10 @@
 import { uuid } from "vue-uuid";
 
 import { IPowder } from "@/models/IPowder";
-import { IPowderService } from "@/services/IPowderService";
+import { IPowderRepository } from "@/repositories/IPowderRepository";
 import { powder } from "@/data/powder";
 
-export class PowderService implements IPowderService {
+export class PowderRepository implements IPowderRepository {
   public async getPowders(): Promise<IPowder[]> {
     return Promise.resolve([powder]);
   }

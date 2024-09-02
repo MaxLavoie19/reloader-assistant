@@ -1,6 +1,6 @@
 import { IPowder } from "@/models/IPowder";
 
-export interface IPowderService {
+export interface IPowderRepository {
   getPowders(): Promise<IPowder[]>;
   getBlankPowder(): IPowder;
 }
