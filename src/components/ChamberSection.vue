@@ -6,7 +6,6 @@
           label="Chambre"
           :items="chamberingItems"
           v-model="model"
-          @update:model-value="emit('update:model-value', model)"
         ></v-autocomplete>
       </v-col>
       <v-col cols="2">
