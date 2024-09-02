@@ -92,35 +92,29 @@
   onMounted(() => {
     model.value = props.chambering;
     setChamberingItems(model.value);
-    setCaliberItems(model.value);
   });
 
   async function setChamberingItems(chambering?: IChambering) {
-    chamberingItems.value = await chamberingRepository.getChamberings().then((chamberings) => {
-      const chamberingItems = chamberings.map(
-        (chambering) => chamberingAutocompleteMapper.map(chambering)
-      );
+    const chamberings = await chamberingRepository.getChamberings()
+    chamberingItems.value = chamberings.map(
+      (chambering) => chamberingAutocompleteMapper.map(chambering)
+    );
 
-      if (chambering) {
-        model.value = chamberingItems.find(item => {
-          return item.value.id === chambering.id;
-        })?.value;
-      }
-
-      return chamberingItems;
-    });
+    if (chambering) {
+      model.value = chamberingItems.value.find(item => {
+        return item.value.id === chambering.id;
+      })?.value;
+    }
   }
 
   async function setCaliberItems(chambering?: IChambering) {
-    caliberItems.value = await caliberRepository.getCalibers().then((calibers) => {
-      const caliberItems = calibers.map((caliber) => caliberAutocompleteMapper.map(caliber));
-      if (chambering) {
-        caliberValue.value = caliberItems.find(item => {
-          return item.value.name == chambering.caliber.name;
-        })?.value;
-      }
-      return caliberItems;
-    });
+    const calibers = await caliberRepository.getCalibers()
+    caliberItems.value = calibers.map((caliber) => caliberAutocompleteMapper.map(caliber));
+    if (chambering) {
+      caliberValue.value = caliberItems.value.find(item => {
+        return item.value.name == chambering.caliber.name;
+      })?.value;
+    }
   }
 
   function addChamber() {
@@ -128,6 +122,7 @@
       model.value = chamberingRepository.getEmptyChambering();
     }
 
+    setCaliberItems(model.value);
     isAddingChamber.value = true;
   }
 

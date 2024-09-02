@@ -1,12 +1,11 @@
 <template>
-
-  <div v-if="model">
+  <div>
     <v-row  v-if="!isAddingBrass">
       <v-col cols="10">
         <v-autocomplete
           label="Brass"
           :items="filteredBrassItems"
-          v-model="brassValue"
+          v-model="model"
         ></v-autocomplete>
       </v-col>
       <v-col cols="2">
@@ -27,6 +26,7 @@
           label="Fabriquant de Brass"
           :items="brassManufacturerItems"
           v-model="brassManufacturerValue"
+          @update:model-value="updateBrassManufacturer"
         ></v-autocomplete>
       </v-col>
       <v-col cols="2">
@@ -37,12 +37,13 @@
         ></v-btn>
       </v-col>
     </v-row>
-    <v-row  v-if="isAddingBrass && isAddingBrassManufacturer">
+    <v-row  v-if="isAddingBrass && isAddingBrassManufacturer && brassManufacturerValue">
       <v-col cols="1"></v-col>
       <v-col cols="11">
         <v-text-field
           label="Nom du fabriquant de brass"
-          v-model="brassManufacturerName"
+          v-model="brassManufacturerValue.name"
+          @update:model-value="updateBrassManufacturer"
         ></v-text-field>
       </v-col>
     </v-row>
@@ -55,10 +56,16 @@
   import { IAutocompleteItem } from '@/models/IAutocompleteItem';
   import { IBrass } from '@/models/IBrass';
   import { IManufacturer } from '@/models/IManufacturer';
-  import { IBrassService } from '@/services/IBrassService';
+  import { IBrassRepository } from '@/repositories/IBrassRepository';
   import { IChambering } from '@/models/IChambering';
+  import { IBrassAutocompleteMapper } from '@/mappers/IBrassAutocompleteMapper';
+  import { IManufacturerRepository } from '@/repositories/IManufacturerRepository';
+  import { IManufacturerAutocompleteMapper } from '@/mappers/IManufacturerAutocompleteMapper';
 
-  const brassService = inject<IBrassService>('brassService') as IBrassService;
+  const brassRepository = inject<IBrassRepository>('brassRepository') as IBrassRepository;
+  const brassAutocompleteMapper = inject<IBrassAutocompleteMapper>('brassAutocompleteMapper') as IBrassAutocompleteMapper;
+  const manufacturerRepository = inject<IManufacturerRepository>('manufacturerRepository') as IManufacturerRepository;
+  const manufacturerAutocompleteMapper = inject<IManufacturerAutocompleteMapper>('manufacturerAutocompleteMapper') as IManufacturerAutocompleteMapper;
 
   const model = defineModel<IBrass>();
 
@@ -68,47 +75,36 @@
 
   watch(() => props.chamberingValue, updateChambering);
 
-  const brassValue = ref<IBrass>();
   const brassItems = ref<IAutocompleteItem<IBrass>[]>([]);
   const filteredBrassItems = ref<IAutocompleteItem<IBrass>[]>([]);
 
-
   const brassManufacturerItems = ref<IAutocompleteItem<IManufacturer>[]>([]);
-  const brassManufacturerValue = ref<IAutocompleteItem<IManufacturer>>();
+  const brassManufacturerValue = ref<IManufacturer>();
   const isAddingBrass = ref(false);
   const isAddingBrassManufacturer = ref(false);
-  const brassManufacturerName = ref('');
 
   onMounted(() => {
-    if (!model.value) {
-      model.value = brassService.getBlankBrass(props.chamberingValue);
-    }
     setBrassItems(model.value);
   });
 
-  async function setBrassItems(brass: IBrass) {
-    brassItems.value = await brassService.getBrasses().then((brasses) => {
-      const brassItems = brasses.map((brass): IAutocompleteItem<IBrass> => {
-        return {title: `${brass.manufacturer.name} ${brass.chambering.name}`, value: brass}
-      });
+  async function setBrassItems(brass?: IBrass): Promise<void> {
+    const brasses = await brassRepository.getBrasses();
+    brassItems.value = brasses.map((brass) => brassAutocompleteMapper.map(brass));
 
-      if (brass) {
-        brassValue.value = brassItems.find(item => {
-          return item.value.id === brass.id;
-        })?.value;
-      }
+    if (brass) {
+      model.value = brassItems.value.find(item => {
+        return item.value.id === brass.id;
+      })?.value;
+    }
 
-      return brassItems
-    });
     filterBrasses();
   }
 
-  function updateChambering() {
-    brassValue.value = undefined;
+  function updateChambering(): void {
     filterBrasses();
   }
 
-  function filterBrasses() {
+  function filterBrasses(): void {
     const chamberingId = props.chamberingValue.id;
 
     if (!chamberingId) {
@@ -121,11 +117,27 @@
     });
   }
 
-  function addBrass() {
+  function addBrass(): void {
+    if (!model.value) {
+      model.value = brassRepository.getBlankBrass(props.chamberingValue);
+    }
+
+    setManufacturer();
     isAddingBrass.value = true;
   }
 
-  function addBrassManufacturer() {
+  function addBrassManufacturer(): void {
     isAddingBrassManufacturer.value = true;
+    brassManufacturerValue.value = manufacturerRepository.getBlankManufacturer();
+  }
+
+  async function setManufacturer(): Promise<void> {
+    const manufacturers = await manufacturerRepository.getManufacturers();
+    brassManufacturerItems.value = manufacturers.map(manufacturer => manufacturerAutocompleteMapper.map(manufacturer))
+  }
+
+  function updateBrassManufacturer(): void {
+    if (!model.value || !brassManufacturerValue.value) return;
+    model.value.manufacturer = brassManufacturerValue.value;
   }
 </script>

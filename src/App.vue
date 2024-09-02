@@ -15,8 +15,8 @@ import { provide } from 'vue';
 import { ChamberingRepository } from '@/repositories/ChamberingRepository';
 import { IRecipeService } from '@/services/IRecipeService';
 import { IChamberingRepository } from '@/repositories/IChamberingRepository';
-import { BrassService } from '@/services/BrassService';
-import { IBrassService } from '@/services/IBrassService';
+import { BrassRepository } from '@/repositories/BrassRepository';
+import { IBrassRepository } from '@/repositories/IBrassRepository';
 import { BulletService } from '@/services/BulletService';
 import { IBulletService } from '@/services/IBulletService';
 import { PrimerService } from '@/services/PrimerService';
@@ -29,6 +29,12 @@ import { CaliberAutocompleteMapper } from '@/mappers/caliberAutocompleteMapper';
 import { ICaliberAutocompleteMapper } from '@/mappers/ICaliberAutocompleteMapper';
 import { ChamberingAutocompleteMapper } from '@/mappers/ChamberingAutocompleteMapper';
 import { IChamberingAutocompleteMapper } from '@/mappers/IChamberingAutocompleteMapper';
+import { BrassAutocompleteMapper } from '@/mappers/BrassAutocompleteMapper';
+import { IBrassAutocompleteMapper } from '@/mappers/IBrassAutocompleteMapper';
+import { IManufacturerRepository } from '@/repositories/IManufacturerRepository';
+import { ManufacturerRepository } from '@/repositories/ManufacturerRepository';
+import { ManufacturerAutocompleteMapper } from '@/mappers/ManufacturerAutocompleteMapper';
+import { IManufacturerAutocompleteMapper } from '@/mappers/IManufacturerAutocompleteMapper';
 
 const caliberRepository = new CaliberRepository();
 provide<ICaliberRepository>('caliberRepository', caliberRepository);
@@ -40,10 +46,17 @@ provide<IChamberingRepository>('chamberingRepository', chamberingRepository);
 const chamberingAutocompleteMapper = new ChamberingAutocompleteMapper();
 provide<IChamberingAutocompleteMapper>('chamberingAutocompleteMapper', chamberingAutocompleteMapper);
 
-// TODO: those services are repositories, refactor them
-const brassService = new BrassService();
-provide<IBrassService>('brassService', brassService);
+const brassRepository = new BrassRepository();
+provide<IBrassRepository>('brassRepository', brassRepository);
+const brassAutocompleteMapper = new BrassAutocompleteMapper();
+provide<IBrassAutocompleteMapper>('brassAutocompleteMapper', brassAutocompleteMapper);
 
+const manufacturerRepository = new ManufacturerRepository();
+provide<IManufacturerRepository>('manufacturerRepository', manufacturerRepository);
+const manufacturerAutocompleteMapper = new ManufacturerAutocompleteMapper();
+provide<IManufacturerAutocompleteMapper>('manufacturerAutocompleteMapper', manufacturerAutocompleteMapper);
+
+// TODO: those services are repositories, refactor them
 const recipeService = new RecipeService();
 provide<IRecipeService>('recipeService', recipeService);
 
