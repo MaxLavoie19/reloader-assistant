@@ -18,8 +18,8 @@ import { IChamberingRepository } from '@/repositories/IChamberingRepository';
 import { BrassRepository } from '@/repositories/BrassRepository';
 import { IBrassRepository } from '@/repositories/IBrassRepository';
 import { IBulletRepository } from '@/repositories/IBulletRepository';
-import { PrimerService } from '@/services/PrimerService';
-import { IPrimerService } from '@/services/IPrimerService';
+import { PrimerRepository } from '@/repositories/PrimerRepository';
+import { IPrimerRepository } from '@/repositories/IPrimerRepository';
 import { IPowderService } from '@/services/IPowderService';
 import { PowderService } from '@/services/PowderService';
 import { CaliberRepository } from '@/repositories/CaliberRepository';
@@ -37,6 +37,8 @@ import { IManufacturerAutocompleteMapper } from '@/mappers/IManufacturerAutocomp
 import { BulletRepository } from '@/repositories/BulletRepository';
 import { BulletAutocompleteMapper } from '@/mappers/BulletAutocompleteMapper';
 import { IBulletAutocompleteMapper } from '@/mappers/IBulletAutocompleteMapper';
+import { PrimerAutocompleteMapper } from '@/mappers/PrimerAutocompleteMapper';
+import { IPrimerAutocompleteMapper } from '@/mappers/IPrimerAutocompleteMapper';
 
 const caliberRepository = new CaliberRepository();
 provide<ICaliberRepository>('caliberRepository', caliberRepository);
@@ -66,10 +68,12 @@ provide<IBulletRepository>('bulletRepository', bulletRepository);
 const bulletAutocompleteMapper = new BulletAutocompleteMapper();
 provide<IBulletAutocompleteMapper>('bulletAutocompleteMapper', bulletAutocompleteMapper);
 
-// TODO: those services are repositories, refactor them
-const primerService = new PrimerService();
-provide<IPrimerService>('primerService', primerService);
+const primerRepository = new PrimerRepository();
+provide<IPrimerRepository>('primerRepository', primerRepository);
+const primerAutocompleteMapper = new PrimerAutocompleteMapper();
+provide<IPrimerAutocompleteMapper>('primerAutocompleteMapper', primerAutocompleteMapper);
 
+// TODO: those services are repositories, refactor them
 const powderService = new PowderService();
 provide<IPowderService>('powderService', powderService);
 

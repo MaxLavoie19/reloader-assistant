@@ -174,7 +174,9 @@
 
   function addBulletManufacturer() {
     isAddingBulletManufacturer.value = true;
-    bulletManufacturerValue.value = manufacturerRepository.getBlankManufacturer();
+    if (!bulletManufacturerValue.value) {
+      bulletManufacturerValue.value = manufacturerRepository.getBlankManufacturer();
+    }
   }
 
   async function setManufacturer(): Promise<void> {
@@ -182,8 +184,8 @@
     bulletManufacturerItems.value = manufacturers.map(manufacturer => manufacturerAutocompleteMapper.map(manufacturer))
   }
 
-function updateBulletManufacturer(): void {
-  if (!model.value || !bulletManufacturerValue.value) return;
-  model.value.manufacturer = bulletManufacturerValue.value;
-}
+  function updateBulletManufacturer(): void {
+    if (!model.value || !bulletManufacturerValue.value) return;
+    model.value.manufacturer = bulletManufacturerValue.value;
+  }
 </script>

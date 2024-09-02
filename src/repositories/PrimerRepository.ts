@@ -1,9 +1,9 @@
 import { largePrimer } from "@/data/primer";
 import { IPrimer } from "@/models/IPrimer";
-import { IPrimerService } from "@/services/IPrimerService";
+import { IPrimerRepository } from "@/repositories/IPrimerRepository";
 import { uuid } from 'vue-uuid';
 
-export class PrimerService implements IPrimerService {
+export class PrimerRepository implements IPrimerRepository {
   public getPrimers(): Promise<IPrimer[]> {
     return Promise.resolve([largePrimer]);
   }
