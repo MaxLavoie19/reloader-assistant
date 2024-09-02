@@ -72,9 +72,9 @@
   import { IPrimer } from '@/models/IPrimer';
   import { IManufacturer } from '@/models/IManufacturer';
   import { IAutocompleteItem } from '@/models/IAutocompleteItem';
-  import { IPrimerRepository } from '@/repositories/IPrimerRepository';
+  import { IPrimerRepository } from '@/repositories/PrimerRepository/IPrimerRepository';
   import { IPrimerAutocompleteMapper } from '@/mappers/IPrimerAutocompleteMapper';
-  import { IManufacturerRepository } from '@/repositories/IManufacturerRepository';
+  import { IManufacturerRepository } from '@/repositories/ManufacturerRepository/IManufacturerRepository';
   import { IManufacturerAutocompleteMapper } from '@/mappers/IManufacturerAutocompleteMapper';
 
   const primerRepository = inject<IPrimerRepository>('primerRepository') as IPrimerRepository;

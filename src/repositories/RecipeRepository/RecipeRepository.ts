@@ -1,6 +1,6 @@
 import { blankRecipe, recipeA } from "@/data/recipe";
 import { IRecipe } from "@/models/IRecipe";
-import { IRecipeRepository } from "@/repositories/IRecipeRepository";
+import { IRecipeRepository } from "@/repositories/RecipeRepository/IRecipeRepository";
 import { uuid } from 'vue-uuid';
 
 export class RecipeRepository implements IRecipeRepository {
@@ -16,11 +16,7 @@ export class RecipeRepository implements IRecipeRepository {
     return Promise.resolve([recipeA, ]);
   }
 
-  public saveRecipe(recipe: IRecipe): void {
-
-  }
-
-  public recipeToQr(recipe: IRecipe): void {
+  public saveRecipe(recipe: IRecipe): Promise<void> {
 
   }
 }

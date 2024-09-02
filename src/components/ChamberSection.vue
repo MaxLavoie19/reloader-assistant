@@ -64,8 +64,8 @@
   import { IAutocompleteItem } from '@/models/IAutocompleteItem';
   import { ICaliber } from '@/models/ICaliber';
   import { IChambering } from '@/models/IChambering';
-  import { ICaliberRepository } from '@/repositories/ICaliberRepository';
-  import { IChamberingRepository } from '@/repositories/IChamberingRepository';
+  import { ICaliberRepository } from '@/repositories/CaliberRepository/ICaliberRepository';
+  import { IChamberingRepository } from '@/repositories/ChamberRepository/IChamberingRepository';
   import { inject, onMounted, ref } from 'vue';
 
   const chamberingRepository = inject<IChamberingRepository>('chamberingRepository') as IChamberingRepository;

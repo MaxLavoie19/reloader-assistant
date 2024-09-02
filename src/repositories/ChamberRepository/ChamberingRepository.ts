@@ -1,7 +1,7 @@
 import { creedmoor6_5Chambering, winchester308Chambering } from "@/data/chambering";
 import { IChambering } from "@/models/IChambering";
-import { ICaliberRepository } from "@/repositories/ICaliberRepository";
-import { IChamberingRepository } from "@/repositories/IChamberingRepository";
+import { ICaliberRepository } from "@/repositories/CaliberRepository/ICaliberRepository";
+import { IChamberingRepository } from "@/repositories/ChamberRepository/IChamberingRepository";
 import { uuid } from "vue-uuid";
 
 export class ChamberingRepository implements IChamberingRepository {

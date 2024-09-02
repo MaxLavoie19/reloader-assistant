@@ -54,10 +54,10 @@
   import { IAutocompleteItem } from '@/models/IAutocompleteItem';
   import { IBrass } from '@/models/IBrass';
   import { IManufacturer } from '@/models/IManufacturer';
-  import { IBrassRepository } from '@/repositories/IBrassRepository';
+  import { IBrassRepository } from '@/repositories/BrassRepository/IBrassRepository';
   import { IChambering } from '@/models/IChambering';
   import { IBrassAutocompleteMapper } from '@/mappers/IBrassAutocompleteMapper';
-  import { IManufacturerRepository } from '@/repositories/IManufacturerRepository';
+  import { IManufacturerRepository } from '@/repositories/ManufacturerRepository/IManufacturerRepository';
   import { IManufacturerAutocompleteMapper } from '@/mappers/IManufacturerAutocompleteMapper';
 
   const brassRepository = inject<IBrassRepository>('brassRepository') as IBrassRepository;

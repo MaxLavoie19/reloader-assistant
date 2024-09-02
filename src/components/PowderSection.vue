@@ -63,8 +63,8 @@
   import { IAutocompleteItem } from '@/models/IAutocompleteItem';
   import { IManufacturer } from '@/models/IManufacturer';
   import { IPowder } from '@/models/IPowder';
-  import { IManufacturerRepository } from '@/repositories/IManufacturerRepository';
-  import { IPowderRepository } from '@/repositories/IPowderRepository';
+  import { IManufacturerRepository } from '@/repositories/ManufacturerRepository/IManufacturerRepository';
+  import { IPowderRepository } from '@/repositories/PowderRepository/IPowderRepository';
   import { inject, onMounted, ref } from 'vue';
 
 

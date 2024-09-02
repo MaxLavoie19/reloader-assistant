@@ -102,9 +102,9 @@
   import { IBullet } from '@/models/IBullet';
   import { ICaliber } from '@/models/ICaliber';
   import { IManufacturer } from '@/models/IManufacturer';
-  import { IBulletRepository } from '@/repositories/IBulletRepository';
+  import { IBulletRepository } from '@/repositories/BulletRepository/IBulletRepository';
   import { IBulletAutocompleteMapper } from '@/mappers/IBulletAutocompleteMapper';
-  import { IManufacturerRepository } from '@/repositories/IManufacturerRepository';
+  import { IManufacturerRepository } from '@/repositories/ManufacturerRepository/IManufacturerRepository';
   import { IManufacturerAutocompleteMapper } from '@/mappers/IManufacturerAutocompleteMapper';
 
   const bulletRepository = inject<IBulletRepository>('bulletRepository') as IBulletRepository;

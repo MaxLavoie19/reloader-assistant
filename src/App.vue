@@ -10,35 +10,35 @@
 
 <script setup lang="ts">
   import { RouterView } from 'vue-router';
-  import { RecipeRepository } from '@/repositories/RecipeRepository'
+  import { RecipeRepository } from '@/repositories/RecipeRepository/RecipeRepository'
   import { provide } from 'vue';
-  import { ChamberingRepository } from '@/repositories/ChamberingRepository';
-  import { IRecipeRepository } from '@/repositories/IRecipeRepository';
-  import { IChamberingRepository } from '@/repositories/IChamberingRepository';
-  import { BrassRepository } from '@/repositories/BrassRepository';
-  import { IBrassRepository } from '@/repositories/IBrassRepository';
-  import { IBulletRepository } from '@/repositories/IBulletRepository';
-  import { IPrimerRepository } from '@/repositories/IPrimerRepository';
-  import { IPowderRepository } from '@/repositories/IPowderRepository';
-  import { PowderRepository } from '@/repositories/PowderRepository';
-  import { CaliberRepository } from '@/repositories/CaliberRepository';
-  import { ICaliberRepository } from '@/repositories/ICaliberRepository';
+  import { ChamberingRepository } from '@/repositories/ChamberRepository/ChamberingRepository';
+  import { IRecipeRepository } from '@/repositories/RecipeRepository/IRecipeRepository';
+  import { IChamberingRepository } from '@/repositories/ChamberRepository/IChamberingRepository';
+  import { BrassRepository } from '@/repositories/BrassRepository/BrassRepository';
+  import { IBrassRepository } from '@/repositories/BrassRepository/IBrassRepository';
+  import { IBulletRepository } from '@/repositories/BulletRepository/IBulletRepository';
+  import { IPrimerRepository } from '@/repositories/PrimerRepository/IPrimerRepository';
+  import { IPowderRepository } from '@/repositories/PowderRepository/IPowderRepository';
+  import { PowderRepository } from '@/repositories/PowderRepository/PowderRepository';
+  import { CaliberRepository } from '@/repositories/CaliberRepository/CaliberRepository';
+  import { ICaliberRepository } from '@/repositories/CaliberRepository/ICaliberRepository';
   import { CaliberAutocompleteMapper } from '@/mappers/caliberAutocompleteMapper';
   import { ICaliberAutocompleteMapper } from '@/mappers/ICaliberAutocompleteMapper';
   import { ChamberingAutocompleteMapper } from '@/mappers/ChamberingAutocompleteMapper';
   import { IChamberingAutocompleteMapper } from '@/mappers/IChamberingAutocompleteMapper';
   import { BrassAutocompleteMapper } from '@/mappers/BrassAutocompleteMapper';
   import { IBrassAutocompleteMapper } from '@/mappers/IBrassAutocompleteMapper';
-  import { IManufacturerRepository } from '@/repositories/IManufacturerRepository';
-  import { ManufacturerRepository } from '@/repositories/ManufacturerRepository';
+  import { IManufacturerRepository } from '@/repositories/ManufacturerRepository/IManufacturerRepository';
+  import { ManufacturerRepository } from '@/repositories/ManufacturerRepository/ManufacturerRepository';
   import { ManufacturerAutocompleteMapper } from '@/mappers/ManufacturerAutocompleteMapper';
   import { IManufacturerAutocompleteMapper } from '@/mappers/IManufacturerAutocompleteMapper';
-  import { BulletRepository } from '@/repositories/BulletRepository';
+  import { BulletRepository } from '@/repositories/BulletRepository/BulletRepository';
   import { BulletAutocompleteMapper } from '@/mappers/BulletAutocompleteMapper';
   import { IBulletAutocompleteMapper } from '@/mappers/IBulletAutocompleteMapper';
   import { PrimerAutocompleteMapper } from '@/mappers/PrimerAutocompleteMapper';
   import { IPrimerAutocompleteMapper } from '@/mappers/IPrimerAutocompleteMapper';
-  import { PrimerRepository } from '@/repositories/PrimerRepository';
+  import { PrimerRepository } from '@/repositories/PrimerRepository/PrimerRepository';
 import { PowderAutocompleteMapper } from '@/mappers/PowderAutocompleteMapper';
 import { IPowderAutocompleteMapper } from '@/mappers/IPowderAutocompleteMapper';
 

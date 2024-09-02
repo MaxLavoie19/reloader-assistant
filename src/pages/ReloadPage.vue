@@ -29,7 +29,7 @@ import { inject, ref } from "vue";
 
 import recipeVue from "@/components/Recipe.vue";
 import recipeForm from "@/components/RecipeForm.vue";
-import { IRecipeRepository } from "@/repositories/IRecipeRepository";
+import { IRecipeRepository } from "@/repositories/RecipeRepository/IRecipeRepository";
 import { IRecipe } from "@/models/IRecipe";
 
 const recipeRepository = inject<IRecipeRepository>('recipeRepository') as IRecipeRepository;

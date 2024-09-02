@@ -1,7 +1,7 @@
 import { bullet6_5, bullet7_62 } from "@/data/bullet";
 import { IBullet } from "@/models/IBullet";
 import { ICaliber } from "@/models/ICaliber";
-import { IBulletRepository } from "@/repositories/IBulletRepository";
+import { IBulletRepository } from "@/repositories/BulletRepository/IBulletRepository";
 import { uuid } from 'vue-uuid';
 
 export class BulletRepository implements IBulletRepository {
