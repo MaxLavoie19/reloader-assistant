@@ -1,12 +1,12 @@
 <template>
-  <div v-if="model">
+  <div>
     <v-row  v-if="!isAddingChamber">
       <v-col cols="10">
         <v-autocomplete
           label="Chambre"
           :items="chamberingItems"
-          v-model="chamberingValue"
-          @update:model-value="emit('update:model-value', chamberingValue)"
+          v-model="model"
+          @update:model-value="emit('update:model-value', model)"
         ></v-autocomplete>
       </v-col>
       <v-col cols="2">
@@ -26,7 +26,8 @@
         <v-autocomplete
           label="Calibre"
           :items="caliberItems"
-          v-model="model.caliber"
+          v-model="caliberValue"
+          @update:model-value="updateCaliber"
         ></v-autocomplete>
       </v-col>
       <v-col cols="2">
@@ -37,21 +38,23 @@
         ></v-btn>
       </v-col>
     </v-row>
-    <v-row  v-if="isAddingChamber && isAddingCaliber">
+    <v-row  v-if="isAddingChamber && isAddingCaliber && caliberValue">
       <v-col cols="1"></v-col>
       <v-col cols="11">
         <v-text-field
           label="Nom du calibre"
-          v-model="caliberValue"
+          v-model="caliberValue.name"
+          @update:model-value="updateCaliber"
         ></v-text-field>
       </v-col>
     </v-row>
-    <v-row  v-if="isAddingChamber">
+    <v-row  v-if="isAddingChamber && model">
       <v-col cols="1"></v-col>
       <v-col cols="11">
         <v-text-field
           label="Nom de la chambre"
-          v-model="model"
+          v-model="model.name"
+          @update:model-value="updateChamber"
         ></v-text-field>
       </v-col>
     </v-row>
@@ -59,50 +62,89 @@
 </template>
 
 <script setup lang="ts">
+  import { ICaliberAutocompleteMapper } from '@/mappers/ICaliberAutocompleteMapper';
+  import { IChamberingAutocompleteMapper } from '@/mappers/IChamberingAutocompleteMapper';
   import { IAutocompleteItem } from '@/models/IAutocompleteItem';
   import { ICaliber } from '@/models/ICaliber';
   import { IChambering } from '@/models/IChambering';
-  import { IChamberingService } from '@/services/IChamberingService';
+  import { ICaliberRepository } from '@/repositories/ICaliberRepository';
+  import { IChamberingRepository } from '@/repositories/IChamberingRepository';
   import { inject, onMounted, ref } from 'vue';
 
-  const chamberingService = inject<IChamberingService>('chamberingService') as IChamberingService;
+  const chamberingRepository = inject<IChamberingRepository>('chamberingRepository') as IChamberingRepository;
+  const chamberingAutocompleteMapper = inject<IChamberingAutocompleteMapper>('chamberingAutocompleteMapper') as IChamberingAutocompleteMapper;
+  const caliberRepository = inject<ICaliberRepository>('caliberRepository') as ICaliberRepository;
+  const caliberAutocompleteMapper = inject<ICaliberAutocompleteMapper>('caliberAutocompleteMapper') as ICaliberAutocompleteMapper;
 
   const model = defineModel<IChambering>()
 
+  const props = defineProps<{
+    chambering?: IChambering,
+  }>();
+
   const chamberingItems = ref<IAutocompleteItem<IChambering>[]>([]);
-  const chamberingValue = ref<IChambering>()
   const isAddingChamber = ref(false);
-  const caliberItems = ref<ICaliber[]>([]);
+  const caliberItems = ref<IAutocompleteItem<ICaliber>[]>([]);
   const caliberValue = ref<ICaliber>();
   const isAddingCaliber = ref(false);
 
   const emit = defineEmits(['update:model-value'])
 
   onMounted(() => {
-    setChamberingItems();
+    model.value = props.chambering;
+    setChamberingItems(model.value);
+    setCaliberItems(model.value);
   });
 
-async function setChamberingItems(chambering?: IChambering) {
-  chamberingItems.value = await chamberingService.getChamberings().then((chamberings) => {
-    const chamberingItems = chamberings.map((chambering): IAutocompleteItem<IChambering> => {
-      return {title: chambering.name, value: chambering}
+  async function setChamberingItems(chambering?: IChambering) {
+    chamberingItems.value = await chamberingRepository.getChamberings().then((chamberings) => {
+      const chamberingItems = chamberings.map(
+        (chambering) => chamberingAutocompleteMapper.map(chambering)
+      );
+
+      if (chambering) {
+        model.value = chamberingItems.find(item => {
+          return item.value.id === chambering.id;
+        })?.value;
+      }
+
+      return chamberingItems;
     });
+  }
 
-    if (chambering) {
-      chamberingValue.value = chamberingItems.find(item => {
-        return item.value.id === chambering.id;
-      })?.value;
-    }
-
-    return chamberingItems;
-  });
-}
+  async function setCaliberItems(chambering?: IChambering) {
+    caliberItems.value = await caliberRepository.getCalibers().then((calibers) => {
+      const caliberItems = calibers.map((caliber) => caliberAutocompleteMapper.map(caliber));
+      if (chambering) {
+        caliberValue.value = caliberItems.find(item => {
+          return item.value.name == chambering.caliber.name;
+        })?.value;
+      }
+      return caliberItems;
+    });
+  }
 
   function addChamber() {
+    if (!model.value) {
+      model.value = chamberingRepository.getEmptyChambering();
+    }
+
     isAddingChamber.value = true;
   }
 
   function addCaliber() {
+    caliberValue.value = caliberRepository.getEmptyCaliber();
     isAddingCaliber.value = true;
+  }
+
+  function updateChamber() {
+    emit("update:model-value", model.value);
+  }
+
+  function updateCaliber() {
+    if (!caliberValue.value || !model?.value) return;
+
+    model.value.caliber = caliberValue.value;
+    emit("update:model-value", model.value);
   }
 </script>

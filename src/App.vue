@@ -12,9 +12,9 @@
 import { RouterView } from 'vue-router';
 import { RecipeService } from '@/services/RecipeService'
 import { provide } from 'vue';
-import { ChamberingService } from '@/services/ChamberingService';
+import { ChamberingRepository } from '@/repositories/ChamberingRepository';
 import { IRecipeService } from '@/services/IRecipeService';
-import { IChamberingService } from '@/services/IChamberingService';
+import { IChamberingRepository } from '@/repositories/IChamberingRepository';
 import { BrassService } from '@/services/BrassService';
 import { IBrassService } from '@/services/IBrassService';
 import { BulletService } from '@/services/BulletService';
@@ -23,10 +23,24 @@ import { PrimerService } from '@/services/PrimerService';
 import { IPrimerService } from '@/services/IPrimerService';
 import { IPowderService } from '@/services/IPowderService';
 import { PowderService } from '@/services/PowderService';
+import { CaliberRepository } from '@/repositories/CaliberRepository';
+import { ICaliberRepository } from '@/repositories/ICaliberRepository';
+import { CaliberAutocompleteMapper } from '@/mappers/caliberAutocompleteMapper';
+import { ICaliberAutocompleteMapper } from '@/mappers/ICaliberAutocompleteMapper';
+import { ChamberingAutocompleteMapper } from '@/mappers/ChamberingAutocompleteMapper';
+import { IChamberingAutocompleteMapper } from '@/mappers/IChamberingAutocompleteMapper';
 
-const chamberingService = new ChamberingService();
-provide<IChamberingService>('chamberingService', chamberingService);
+const caliberRepository = new CaliberRepository();
+provide<ICaliberRepository>('caliberRepository', caliberRepository);
+const caliberAutocompleteMapper = new CaliberAutocompleteMapper();
+provide<ICaliberAutocompleteMapper>('caliberAutocompleteMapper', caliberAutocompleteMapper);
 
+const chamberingRepository = new ChamberingRepository(caliberRepository);
+provide<IChamberingRepository>('chamberingRepository', chamberingRepository);
+const chamberingAutocompleteMapper = new ChamberingAutocompleteMapper();
+provide<IChamberingAutocompleteMapper>('chamberingAutocompleteMapper', chamberingAutocompleteMapper);
+
+// TODO: those services are repositories, refactor them
 const brassService = new BrassService();
 provide<IBrassService>('brassService', brassService);
 

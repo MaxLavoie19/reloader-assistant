@@ -1,5 +1,6 @@
 import { IChambering } from "@/models/IChambering";
 
-export interface IChamberingService {
+export interface IChamberingRepository {
   getChamberings(): Promise<IChambering[]>
+  getEmptyChambering(): IChambering
 }
