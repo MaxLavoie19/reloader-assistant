@@ -1,7 +1,8 @@
 import { IRecipe } from "@/models/IRecipe";
+import { Observable } from "rxjs";
 
 export interface IRecipeRepository {
-  getRecipes(): Promise<IRecipe[]>;
+  getRecipes(): Observable<IRecipe[]>;
   getBlankRecipe(): IRecipe;
-  saveRecipe(recipe: IRecipe): Promise<void>;
+  saveRecipe(recipe: IRecipe): void;
 }

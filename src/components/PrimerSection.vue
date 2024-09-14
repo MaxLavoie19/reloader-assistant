@@ -76,6 +76,7 @@
   import { IPrimerAutocompleteMapper } from '@/mappers/IPrimerAutocompleteMapper';
   import { IManufacturerRepository } from '@/repositories/ManufacturerRepository/IManufacturerRepository';
   import { IManufacturerAutocompleteMapper } from '@/mappers/IManufacturerAutocompleteMapper';
+import { map } from 'rxjs';
 
   const primerRepository = inject<IPrimerRepository>('primerRepository') as IPrimerRepository;
   const primerAutocompleteMapper = inject<IPrimerAutocompleteMapper>('primerAutocompleteMapper') as IPrimerAutocompleteMapper;
@@ -96,15 +97,16 @@
     setPrimerItems();
   });
 
-  async function setPrimerItems(primer?: IPrimer) {
-    const primers = await primerRepository.getPrimers()
-    primerItems.value = primers.map((primer) => primerAutocompleteMapper.map(primer));
+  function setPrimerItems(primer?: IPrimer) {
+    primerRepository.getPrimers().pipe(map((primers) => {
+      primerItems.value = primers.map((primer) => primerAutocompleteMapper.map(primer));
 
-    if (primer) {
-      model.value = primerItems.value.find(item => {
-        return item.value.id === primer.id;
-      })?.value;
-    }
+      if (primer) {
+        model.value = primerItems.value.find(item => {
+          return item.value.id === primer.id;
+        })?.value;
+      }
+    }));
   }
 
   function addPrimer() {
@@ -116,15 +118,16 @@
     isAddingPrimer.value = true;
   }
 
-  async function setPrimerManufacturerItems(primer?: IPrimer) {
-    const primerManufacturers = await manufacturerRepository.getManufacturers()
-    primerManufacturerItems.value = primerManufacturers.map((primer) => manufacturerAutocompleteMapper.map(primer));
+  function setPrimerManufacturerItems(primer?: IPrimer) {
+    manufacturerRepository.getManufacturers().pipe(map((primerManufacturers) => {
+      primerManufacturerItems.value = primerManufacturers.map((primer) => manufacturerAutocompleteMapper.map(primer));
 
-    if (primer?.manufacturer) {
-      primerManufacturerValue.value = primerManufacturerItems.value.find(item => {
-        return item.value.name === primer.manufacturer.name;
-      })?.value;
-    }
+      if (primer?.manufacturer) {
+        primerManufacturerValue.value = primerManufacturerItems.value.find(item => {
+          return item.value.name === primer.manufacturer.name;
+        })?.value;
+      }
+    }));
   }
 
   function addPrimerManufacturer() {

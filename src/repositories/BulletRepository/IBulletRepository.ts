@@ -1,7 +1,8 @@
 import { IBullet } from "@/models/IBullet";
 import { ICaliber } from "@/models/ICaliber";
+import { Observable } from "rxjs";
 
 export interface IBulletRepository {
-  getBullets(): Promise<IBullet[]>;
+  getBullets(): Observable<IBullet[]>;
   getBlankBullet(caliber: ICaliber): IBullet;
 }

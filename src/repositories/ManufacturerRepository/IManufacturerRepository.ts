@@ -1,6 +1,7 @@
 import { IManufacturer } from "@/models/IManufacturer";
+import { Observable } from "rxjs";
 
 export interface IManufacturerRepository {
-  getManufacturers(): Promise<IManufacturer[]>;
+  getManufacturers(): Observable<IManufacturer[]>;
   getBlankManufacturer(): IManufacturer;
 }

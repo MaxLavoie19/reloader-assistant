@@ -1,6 +1,7 @@
 import { IPowder } from "@/models/IPowder";
+import { Observable } from "rxjs";
 
 export interface IPowderRepository {
-  getPowders(): Promise<IPowder[]>;
+  getPowders(): Observable<IPowder[]>;
   getBlankPowder(): IPowder;
 }

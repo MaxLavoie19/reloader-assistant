@@ -66,6 +66,7 @@
   import { IChambering } from '@/models/IChambering';
   import { ICaliberRepository } from '@/repositories/CaliberRepository/ICaliberRepository';
   import { IChamberingRepository } from '@/repositories/ChamberRepository/IChamberingRepository';
+import { map } from 'rxjs';
   import { inject, onMounted, ref } from 'vue';
 
   const chamberingRepository = inject<IChamberingRepository>('chamberingRepository') as IChamberingRepository;
@@ -92,27 +93,29 @@
     setChamberingItems(model.value);
   });
 
-  async function setChamberingItems(chambering?: IChambering) {
-    const chamberings = await chamberingRepository.getChamberings()
-    chamberingItems.value = chamberings.map(
-      (chambering) => chamberingAutocompleteMapper.map(chambering)
-    );
+  function setChamberingItems(chambering?: IChambering) {
+    chamberingRepository.getChamberings().pipe(map((chamberings) => {
+      chamberingItems.value = chamberings.map(
+        (chambering) => chamberingAutocompleteMapper.map(chambering)
+      );
 
-    if (chambering) {
-      model.value = chamberingItems.value.find(item => {
-        return item.value.id === chambering.id;
-      })?.value;
-    }
+      if (chambering) {
+        model.value = chamberingItems.value.find(item => {
+          return item.value.id === chambering.id;
+        })?.value;
+      }
+    }));
   }
 
-  async function setCaliberItems(chambering?: IChambering) {
-    const calibers = await caliberRepository.getCalibers()
-    caliberItems.value = calibers.map((caliber) => caliberAutocompleteMapper.map(caliber));
-    if (chambering) {
-      caliberValue.value = caliberItems.value.find(item => {
-        return item.value.name == chambering.caliber.name;
-      })?.value;
-    }
+  function setCaliberItems(chambering?: IChambering) {
+    caliberRepository.getCalibers().pipe(map((calibers) => {
+      caliberItems.value = calibers.map((caliber) => caliberAutocompleteMapper.map(caliber));
+      if (chambering) {
+        caliberValue.value = caliberItems.value.find(item => {
+          return item.value.name == chambering.caliber.name;
+        })?.value;
+      }
+    }));
   }
 
   function addChamber() {

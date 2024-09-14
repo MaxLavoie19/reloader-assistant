@@ -1,5 +1,8 @@
+import { Observable } from "rxjs";
+
 export interface ISessionRepository {
-  login(username: string, credential: string): void;
-  isLoggedIn(): boolean;
+  isLoggedIn(): Observable<boolean>;
   logout(): void;
+  setToken(authToken: string): void
+  getToken(): Observable<string | undefined>
 }

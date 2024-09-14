@@ -1,10 +1,11 @@
 import { hodgdon, hornady, unisGinex } from "@/data/manufacturer";
 import { IManufacturer } from "@/models/IManufacturer";
-import { IManufacturerRepository as IManufacturerRepository } from "@/repositories/IManufacturerRepository";
+import { IManufacturerRepository } from "@/repositories/ManufacturerRepository/IManufacturerRepository";
+import { Observable } from "rxjs";
 
 export class ManufacturerRepository implements IManufacturerRepository {
-  public async getManufacturers(): Promise<IManufacturer[]> {
-    return Promise.resolve([hornady, hodgdon, unisGinex]);
+  public getManufacturers(): Observable<IManufacturer[]> {
+    return new Observable((observer) => observer.next([hornady, hodgdon, unisGinex]));
   }
 
   public getBlankManufacturer(): IManufacturer {

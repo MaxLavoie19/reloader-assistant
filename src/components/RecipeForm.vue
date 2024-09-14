@@ -107,7 +107,6 @@
   import { ref, onMounted } from 'vue';
   import { VNumberInput } from 'vuetify/labs/VNumberInput'
 
-  import { uuid } from 'vue-uuid';
   import { IRecipe } from '@/models/IRecipe';
   import { IChambering } from '@/models/IChambering';
   import { IBrass } from '@/models/IBrass';
@@ -168,13 +167,14 @@
     const primer = primerValue.value;
     const powder = powderValue.value;
 
-    if (!recipe || !brass || !bullet || !primer || !powder) return;
+    /* if (!recipe || !brass || !bullet || !primer || !powder) return;
 
     recipe.id = uuid.v4()
     recipe.brass = brass;
     recipe.bullet = bullet;
     recipe.primer = primer;
     recipe.powder = powder;
+    */
 
     emit('save', recipe);
   }

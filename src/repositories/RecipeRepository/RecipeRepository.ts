@@ -1,10 +1,12 @@
 import { blankRecipe, recipeA } from "@/data/recipe";
 import { IRecipe } from "@/models/IRecipe";
 import { IRecipeRepository } from "@/repositories/RecipeRepository/IRecipeRepository";
+import { IApiService } from "@/services/ApiService/IApiService";
+import { Observable } from "rxjs";
 import { uuid } from 'vue-uuid';
 
 export class RecipeRepository implements IRecipeRepository {
-  public constructor() {}
+  public constructor(private apiService: IApiService) {}
 
   public getBlankRecipe(): IRecipe {
     const blankRecipeCopy = JSON.parse(JSON.stringify(blankRecipe));
@@ -12,11 +14,11 @@ export class RecipeRepository implements IRecipeRepository {
     return blankRecipeCopy
   }
 
-  public getRecipes(): Promise<IRecipe[]> {
-    return Promise.resolve([recipeA, ]);
+  public getRecipes(): Observable<IRecipe[]> {
+    return new Observable((observer) => observer.next([recipeA, ]));
   }
 
-  public saveRecipe(recipe: IRecipe): Promise<void> {
-
+  public saveRecipe(recipe: IRecipe): void {
+    this.apiService.post(recipe);
   }
 }

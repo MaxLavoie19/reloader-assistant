@@ -2,7 +2,7 @@
   <div class="page">
     <v-sheet class="mx-auto">
       <div class="recipes-container">
-        <recipeVue class="recipe" v-for="recipe in recipes" :key="recipe.id" :recipe="recipe"></recipeVue>
+        <recipe class="recipe" v-for="recipe in recipesRef" :key="recipe.id" :recipe="recipe"></recipe>
       </div>
       <div class="add-button-container">
         <v-btn
@@ -24,36 +24,35 @@
 </template>
 
 <script setup lang="ts">
+  import { inject, ref } from "vue";
 
-import { inject, ref } from "vue";
+  import { IRecipeRepository } from "@/repositories/RecipeRepository/IRecipeRepository";
+  import { IRecipe } from "@/models/IRecipe";
+  import { map } from "rxjs";
 
-import recipeVue from "@/components/Recipe.vue";
-import recipeForm from "@/components/RecipeForm.vue";
-import { IRecipeRepository } from "@/repositories/RecipeRepository/IRecipeRepository";
-import { IRecipe } from "@/models/IRecipe";
+  const recipeRepository = inject<IRecipeRepository>('recipeRepository') as IRecipeRepository;
 
-const recipeRepository = inject<IRecipeRepository>('recipeRepository') as IRecipeRepository;
+  const recipesRef = ref<IRecipe[]>();
+  const isEditingRecipe = ref(false);
+  const editedRecipe = ref<IRecipe>();
 
-const recipes = ref<IRecipe[]>();
-const isEditingRecipe = ref(false);
-const editedRecipe = ref<IRecipe>();
+  recipeRepository.getRecipes().pipe(map((recipes) => {
+    recipesRef.value = recipes;
+  }));
 
-recipes.value = recipeRepository.getRecipes();
+  function addRecipe() {
+    isEditingRecipe.value = true;
+    editedRecipe.value = recipeRepository.getBlankRecipe();
+  }
 
-function addRecipe() {
-  isEditingRecipe.value = true;
-  editedRecipe.value = recipeRepository.getBlankRecipe();
-}
+  function editRecipe(recipe: IRecipe) {
+    isEditingRecipe.value = true;
+    editedRecipe.value = recipe;
+  }
 
-function editRecipe(recipe: IRecipe) {
-  isEditingRecipe.value = true;
-  editedRecipe.value = recipe;
-}
-
-function saveRecipe(recipe: IRecipe) {
-  recipeRepository.saveRecipe(recipe)
-}
-
+  function saveRecipe(recipe: IRecipe) {
+    recipeRepository.saveRecipe(recipe)
+  }
 </script>
 
 <style scoped lang="scss">

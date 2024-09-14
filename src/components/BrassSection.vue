@@ -59,6 +59,7 @@
   import { IBrassAutocompleteMapper } from '@/mappers/IBrassAutocompleteMapper';
   import { IManufacturerRepository } from '@/repositories/ManufacturerRepository/IManufacturerRepository';
   import { IManufacturerAutocompleteMapper } from '@/mappers/IManufacturerAutocompleteMapper';
+import { map } from 'rxjs';
 
   const brassRepository = inject<IBrassRepository>('brassRepository') as IBrassRepository;
   const brassAutocompleteMapper = inject<IBrassAutocompleteMapper>('brassAutocompleteMapper') as IBrassAutocompleteMapper;
@@ -85,17 +86,18 @@
     setBrassItems(model.value);
   });
 
-  async function setBrassItems(brass?: IBrass): Promise<void> {
-    const brasses = await brassRepository.getBrasses();
-    brassItems.value = brasses.map((brass) => brassAutocompleteMapper.map(brass));
+  function setBrassItems(brass?: IBrass): void {
+    brassRepository.getBrasses().pipe(map((brasses) => {
+      brassItems.value = brasses.map((brass) => brassAutocompleteMapper.map(brass));
 
-    if (brass) {
-      model.value = brassItems.value.find(item => {
-        return item.value.id === brass.id;
-      })?.value;
-    }
+      if (brass) {
+        model.value = brassItems.value.find(item => {
+          return item.value.id === brass.id;
+        })?.value;
+      }
 
-    filterBrasses();
+      filterBrasses();
+    }));
   }
 
   function updateChambering(): void {
@@ -132,9 +134,10 @@
     isAddingBrassManufacturer.value = true;
   }
 
-  async function setManufacturer(): Promise<void> {
-    const manufacturers = await manufacturerRepository.getManufacturers();
-    brassManufacturerItems.value = manufacturers.map(manufacturer => manufacturerAutocompleteMapper.map(manufacturer))
+  function setManufacturer(): void {
+    manufacturerRepository.getManufacturers().pipe(map((manufacturers) => {
+      brassManufacturerItems.value = manufacturers.map(manufacturer => manufacturerAutocompleteMapper.map(manufacturer))
+    }));
   }
 
   function updateBrassManufacturer(): void {

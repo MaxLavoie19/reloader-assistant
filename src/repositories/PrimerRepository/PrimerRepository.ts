@@ -1,11 +1,12 @@
 import { largePrimer } from "@/data/primer";
 import { IPrimer } from "@/models/IPrimer";
-import { IPrimerRepository } from "@/repositories/IPrimerRepository";
+import { IPrimerRepository } from "@/repositories/PrimerRepository/IPrimerRepository";
+import { Observable } from "rxjs";
 import { uuid } from 'vue-uuid';
 
 export class PrimerRepository implements IPrimerRepository {
-  public getPrimers(): Promise<IPrimer[]> {
-    return Promise.resolve([largePrimer]);
+  public getPrimers(): Observable<IPrimer[]> {
+    return new Observable((observer) => observer.next([largePrimer]));
   }
   public getBlankPrimer(): IPrimer {
     return {

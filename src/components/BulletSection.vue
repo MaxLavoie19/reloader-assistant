@@ -106,6 +106,7 @@
   import { IBulletAutocompleteMapper } from '@/mappers/IBulletAutocompleteMapper';
   import { IManufacturerRepository } from '@/repositories/ManufacturerRepository/IManufacturerRepository';
   import { IManufacturerAutocompleteMapper } from '@/mappers/IManufacturerAutocompleteMapper';
+import { map, Observable } from 'rxjs';
 
   const bulletRepository = inject<IBulletRepository>('bulletRepository') as IBulletRepository;
   const bulletAutocompleteMapper = inject<IBulletAutocompleteMapper>('bulletAutocompleteMapper') as IBulletAutocompleteMapper;
@@ -132,17 +133,18 @@
     setBulletItems(model.value);
   });
 
-  async function setBulletItems(bullet?: IBullet) {
-    const bullets = await bulletRepository.getBullets()
-    bulletItems.value = bullets.map((bullet) => bulletAutocompleteMapper.map(bullet));
+  function setBulletItems(bullet?: IBullet) {
+    bulletRepository.getBullets().pipe(map((bullets) => {
+      bulletItems.value = bullets.map((bullet) => bulletAutocompleteMapper.map(bullet));
 
-    if (bullet) {
-      model.value = bulletItems.value.find(item => {
-        return item.value.id === bullet.id;
-      })?.value;
-    }
+      if (bullet) {
+        model.value = bulletItems.value.find(item => {
+          return item.value.id === bullet.id;
+        })?.value;
+      }
 
-    filterBullets();
+      filterBullets();
+    }));
   }
 
   function updateCaliber() {
@@ -180,9 +182,10 @@
     isAddingBulletManufacturer.value = true;
   }
 
-  async function setManufacturer(): Promise<void> {
-    const manufacturers = await manufacturerRepository.getManufacturers();
-    bulletManufacturerItems.value = manufacturers.map(manufacturer => manufacturerAutocompleteMapper.map(manufacturer))
+  function setManufacturer(): void {
+    manufacturerRepository.getManufacturers().pipe(map((manufacturers) => {
+      bulletManufacturerItems.value = manufacturers.map(manufacturer => manufacturerAutocompleteMapper.map(manufacturer))
+    }));
   }
 
   function updateBulletManufacturer(): void {

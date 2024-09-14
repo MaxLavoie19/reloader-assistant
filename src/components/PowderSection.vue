@@ -65,6 +65,7 @@
   import { IPowder } from '@/models/IPowder';
   import { IManufacturerRepository } from '@/repositories/ManufacturerRepository/IManufacturerRepository';
   import { IPowderRepository } from '@/repositories/PowderRepository/IPowderRepository';
+import { map } from 'rxjs';
   import { inject, onMounted, ref } from 'vue';
 
 
@@ -86,15 +87,16 @@
     setPowderItems(model.value);
   });
 
-  async function setPowderItems(powder?: IPowder) {
-    const powders = await powderRepository.getPowders()
-    powderItems.value = powders.map(powder => powderAutocompleteMapper.map(powder));
+  function setPowderItems(powder?: IPowder) {
+    powderRepository.getPowders().pipe(map((powders) => {
+      powderItems.value = powders.map(powder => powderAutocompleteMapper.map(powder));
 
-    if (powder) {
-      model.value = powderItems.value.find(item => {
-        return item.value.id === powder.id;
-      })?.value;
-    }
+      if (powder) {
+        model.value = powderItems.value.find(item => {
+          return item.value.id === powder.id;
+        })?.value;
+      }
+    }));
   }
 
   function addPowder() {
@@ -106,15 +108,16 @@
     isAddingPowder.value = true;
   }
 
-  async function setPowderManufacturerItems(powder?: IPowder) {
-    const powderManufacturers = await manufacturerRepository.getManufacturers()
-    powderManufacturerItems.value = powderManufacturers.map((powder) => manufacturerAutocompleteMapper.map(powder));
+  function setPowderManufacturerItems(powder?: IPowder) {
+    manufacturerRepository.getManufacturers().pipe(map((powderManufacturers) => {
+      powderManufacturerItems.value = powderManufacturers.map((powder) => manufacturerAutocompleteMapper.map(powder));
 
-    if (powder?.manufacturer) {
-      powderManufacturerValue.value = powderManufacturerItems.value.find(item => {
-        return item.value.name === powder.manufacturer.name;
-      })?.value;
-    }
+      if (powder?.manufacturer) {
+        powderManufacturerValue.value = powderManufacturerItems.value.find(item => {
+          return item.value.name === powder.manufacturer.name;
+        })?.value;
+      }
+    }));
   }
 
   function addPowderManufacturer() {

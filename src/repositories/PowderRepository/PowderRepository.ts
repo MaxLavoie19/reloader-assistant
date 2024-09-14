@@ -1,12 +1,13 @@
 import { uuid } from "vue-uuid";
 
 import { IPowder } from "@/models/IPowder";
-import { IPowderRepository } from "@/repositories/IPowderRepository";
 import { powder } from "@/data/powder";
+import { Observable } from "rxjs";
+import { IPowderRepository } from "@/repositories/PowderRepository/IPowderRepository";
 
 export class PowderRepository implements IPowderRepository {
-  public async getPowders(): Promise<IPowder[]> {
-    return Promise.resolve([powder]);
+  public getPowders(): Observable<IPowder[]> {
+    return new Observable((observer) => observer.next([powder]));
   }
 
   public getBlankPowder(): IPowder {

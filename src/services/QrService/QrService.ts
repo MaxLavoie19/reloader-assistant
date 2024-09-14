@@ -1,4 +1,4 @@
-import { IQrService } from "@/services/IQrService";
+import { IQrService } from "@/services/QrService/IQrService";
 
 export class QrService implements IQrService {
   public dataToQr(data: string): void {

@@ -1,6 +1,7 @@
 import { IChambering } from "@/models/IChambering";
+import { Observable } from "rxjs";
 
 export interface IChamberingRepository {
-  getChamberings(): Promise<IChambering[]>
+  getChamberings(): Observable<IChambering[]>
   getEmptyChambering(): IChambering
 }
