@@ -5,4 +5,8 @@ export class ApiService implements IApiService {
     const authToken = '1234abcd';
     return Promise.resolve(authToken);
   }
+
+  logout(token: string) {
+
+  }
 }

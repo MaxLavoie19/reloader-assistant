@@ -23,7 +23,7 @@
   import { PowderRepository } from '@/repositories/PowderRepository/PowderRepository';
   import { CaliberRepository } from '@/repositories/CaliberRepository/CaliberRepository';
   import { ICaliberRepository } from '@/repositories/CaliberRepository/ICaliberRepository';
-  import { CaliberAutocompleteMapper } from '@/mappers/caliberAutocompleteMapper';
+  import { CaliberAutocompleteMapper } from '@/mappers/CaliberAutocompleteMapper';
   import { ICaliberAutocompleteMapper } from '@/mappers/ICaliberAutocompleteMapper';
   import { ChamberingAutocompleteMapper } from '@/mappers/ChamberingAutocompleteMapper';
   import { IChamberingAutocompleteMapper } from '@/mappers/IChamberingAutocompleteMapper';
@@ -39,8 +39,8 @@
   import { PrimerAutocompleteMapper } from '@/mappers/PrimerAutocompleteMapper';
   import { IPrimerAutocompleteMapper } from '@/mappers/IPrimerAutocompleteMapper';
   import { PrimerRepository } from '@/repositories/PrimerRepository/PrimerRepository';
-import { PowderAutocompleteMapper } from '@/mappers/PowderAutocompleteMapper';
-import { IPowderAutocompleteMapper } from '@/mappers/IPowderAutocompleteMapper';
+  import { PowderAutocompleteMapper } from '@/mappers/PowderAutocompleteMapper';
+  import { IPowderAutocompleteMapper } from '@/mappers/IPowderAutocompleteMapper';
 
   const caliberRepository = new CaliberRepository();
   provide<ICaliberRepository>('caliberRepository', caliberRepository);
