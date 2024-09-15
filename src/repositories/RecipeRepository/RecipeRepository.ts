@@ -15,7 +15,7 @@ export class RecipeRepository implements IRecipeRepository {
   }
 
   public getRecipes(): Observable<IRecipe[]> {
-    return new Observable((observer) => observer.next([recipeA, ]));
+    return this.apiService.getList<IRecipe>("recipe");
   }
 
   public saveRecipe(recipe: IRecipe): void {

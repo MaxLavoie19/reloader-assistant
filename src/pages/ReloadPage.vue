@@ -36,9 +36,9 @@
   const isEditingRecipe = ref(false);
   const editedRecipe = ref<IRecipe>();
 
-  recipeRepository.getRecipes().pipe(map((recipes) => {
+  recipeRepository.getRecipes().subscribe((recipes) => {
     recipesRef.value = recipes;
-  }));
+  });
 
   function addRecipe() {
     isEditingRecipe.value = true;
