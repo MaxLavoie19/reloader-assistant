@@ -60,7 +60,7 @@
     <v-col cols="11">
       <v-number-input
         label="Poids de la balle"
-        suffix="mm"
+        suffix="Gn"
         v-model="model.weightInGrains"
       ></v-number-input>
     </v-col>
@@ -106,7 +106,6 @@
   import { IBulletAutocompleteMapper } from '@/mappers/IBulletAutocompleteMapper';
   import { IManufacturerRepository } from '@/repositories/ManufacturerRepository/IManufacturerRepository';
   import { IManufacturerAutocompleteMapper } from '@/mappers/IManufacturerAutocompleteMapper';
-import { map, Observable } from 'rxjs';
 
   const bulletRepository = inject<IBulletRepository>('bulletRepository') as IBulletRepository;
   const bulletAutocompleteMapper = inject<IBulletAutocompleteMapper>('bulletAutocompleteMapper') as IBulletAutocompleteMapper;
@@ -134,7 +133,7 @@ import { map, Observable } from 'rxjs';
   });
 
   function setBulletItems(bullet?: IBullet) {
-    bulletRepository.getBullets().pipe(map((bullets) => {
+    bulletRepository.getBullets().subscribe((bullets) => {
       bulletItems.value = bullets.map((bullet) => bulletAutocompleteMapper.map(bullet));
 
       if (bullet) {
@@ -144,7 +143,7 @@ import { map, Observable } from 'rxjs';
       }
 
       filterBullets();
-    }));
+    });
   }
 
   function updateCaliber() {
@@ -183,9 +182,9 @@ import { map, Observable } from 'rxjs';
   }
 
   function setManufacturer(): void {
-    manufacturerRepository.getManufacturers().pipe(map((manufacturers) => {
+    manufacturerRepository.getManufacturers().subscribe((manufacturers) => {
       bulletManufacturerItems.value = manufacturers.map(manufacturer => manufacturerAutocompleteMapper.map(manufacturer))
-    }));
+    });
   }
 
   function updateBulletManufacturer(): void {

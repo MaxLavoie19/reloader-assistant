@@ -1,14 +1,16 @@
-import { bullet6_5, bullet7_62 } from "@/data/bullet";
 import { IBullet } from "@/models/IBullet";
 import { ICaliber } from "@/models/ICaliber";
 import { IBulletRepository } from "@/repositories/BulletRepository/IBulletRepository";
+import { IApiService } from "@/services/ApiService/IApiService";
 import { Observable } from "rxjs";
 import { uuid } from 'vue-uuid';
 
 export class BulletRepository implements IBulletRepository {
+  constructor(private apiService: IApiService) { }
 
   public getBullets(): Observable<IBullet[]> {
-    return new Observable((observer) => observer.next([bullet6_5, bullet7_62]));
+    const bullets = this.apiService.getList<IBullet>("bullets");
+    return bullets;
   }
   public getBlankBullet(caliber: ICaliber): IBullet {
     return {

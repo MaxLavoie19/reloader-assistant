@@ -65,7 +65,7 @@ export class ApiService implements IApiService {
         .then((response) => {
           observer.next(response.items);
         });
-      });
+      }).pipe(take(1));
     }),
   );
   }

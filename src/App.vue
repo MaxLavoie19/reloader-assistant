@@ -71,30 +71,30 @@
     globalErrorHandlerService.handleError(error, message, url, line, column);
   };
 
-  const caliberRepository = new CaliberRepository();
-  provide<ICaliberRepository>('caliberRepository', caliberRepository);
-  const caliberAutocompleteMapper = new CaliberAutocompleteMapper();
-  provide<ICaliberAutocompleteMapper>('caliberAutocompleteMapper', caliberAutocompleteMapper);
-
-  const chamberingRepository = new ChamberingRepository(caliberRepository);
-  provide<IChamberingRepository>('chamberingRepository', chamberingRepository);
-  const chamberingAutocompleteMapper = new ChamberingAutocompleteMapper();
-  provide<IChamberingAutocompleteMapper>('chamberingAutocompleteMapper', chamberingAutocompleteMapper);
-
-  const brassRepository = new BrassRepository();
-  provide<IBrassRepository>('brassRepository', brassRepository);
-  const brassAutocompleteMapper = new BrassAutocompleteMapper();
-  provide<IBrassAutocompleteMapper>('brassAutocompleteMapper', brassAutocompleteMapper);
-
-  const manufacturerRepository = new ManufacturerRepository();
-  provide<IManufacturerRepository>('manufacturerRepository', manufacturerRepository);
-  const manufacturerAutocompleteMapper = new ManufacturerAutocompleteMapper();
-  provide<IManufacturerAutocompleteMapper>('manufacturerAutocompleteMapper', manufacturerAutocompleteMapper);
-
   const modalService = new ModalService();
   const sessionRepository = new SessionsRespository();
   const apiService = new ApiService(sessionRepository);
   provide<IApiService>('apiService', apiService);
+
+  const caliberRepository = new CaliberRepository(apiService);
+  provide<ICaliberRepository>('caliberRepository', caliberRepository);
+  const caliberAutocompleteMapper = new CaliberAutocompleteMapper();
+  provide<ICaliberAutocompleteMapper>('caliberAutocompleteMapper', caliberAutocompleteMapper);
+
+  const chamberingRepository = new ChamberingRepository(caliberRepository, apiService);
+  provide<IChamberingRepository>('chamberingRepository', chamberingRepository);
+  const chamberingAutocompleteMapper = new ChamberingAutocompleteMapper();
+  provide<IChamberingAutocompleteMapper>('chamberingAutocompleteMapper', chamberingAutocompleteMapper);
+
+  const brassRepository = new BrassRepository(apiService);
+  provide<IBrassRepository>('brassRepository', brassRepository);
+  const brassAutocompleteMapper = new BrassAutocompleteMapper();
+  provide<IBrassAutocompleteMapper>('brassAutocompleteMapper', brassAutocompleteMapper);
+
+  const manufacturerRepository = new ManufacturerRepository(apiService);
+  provide<IManufacturerRepository>('manufacturerRepository', manufacturerRepository);
+  const manufacturerAutocompleteMapper = new ManufacturerAutocompleteMapper();
+  provide<IManufacturerAutocompleteMapper>('manufacturerAutocompleteMapper', manufacturerAutocompleteMapper);
 
   sessionRepository.isLoggedIn().subscribe((isLogingIn) => {
     isLogingInRef.value = isLogingIn;
@@ -115,17 +115,17 @@
   const recipeRepository = new RecipeRepository(apiService);
   provide<IRecipeRepository>('recipeRepository', recipeRepository);
 
-  const bulletRepository = new BulletRepository();
+  const bulletRepository = new BulletRepository(apiService);
   provide<IBulletRepository>('bulletRepository', bulletRepository);
   const bulletAutocompleteMapper = new BulletAutocompleteMapper();
   provide<IBulletAutocompleteMapper>('bulletAutocompleteMapper', bulletAutocompleteMapper);
 
-  const primerRepository = new PrimerRepository();
+  const primerRepository = new PrimerRepository(apiService);
   provide<IPrimerRepository>('primerRepository', primerRepository);
   const primerAutocompleteMapper = new PrimerAutocompleteMapper();
   provide<IPrimerAutocompleteMapper>('primerAutocompleteMapper', primerAutocompleteMapper);
 
-  const powderRepository = new PowderRepository();
+  const powderRepository = new PowderRepository(apiService);
   provide<IPowderRepository>('powderRepository', powderRepository);
   const powderAutocompleteMapper = new PowderAutocompleteMapper();
   provide<IPowderAutocompleteMapper>('powderAutocompleteMapper', powderAutocompleteMapper);

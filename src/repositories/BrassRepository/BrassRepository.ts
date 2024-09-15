@@ -1,13 +1,16 @@
-import { creedmoor6_5Brass, winchester308Brass } from "@/data/brass";
 import { IBrass } from "@/models/IBrass";
 import { IChambering } from "@/models/IChambering";
 import { IBrassRepository as IBrassRepository } from "@/repositories/BrassRepository/IBrassRepository";
+import { IApiService } from "@/services/ApiService/IApiService";
 import { Observable } from "rxjs";
 import { uuid } from 'vue-uuid';
 
 export class BrassRepository implements IBrassRepository {
+  constructor(private apiService: IApiService) { }
+
   public getBrasses(): Observable<IBrass[]> {
-    return new Observable((observer) => observer.next([creedmoor6_5Brass, winchester308Brass]));
+    const brasses = this.apiService.getList<IBrass>("brasses");
+    return brasses;
   }
   public getBlankBrass(chambering: IChambering): IBrass {
     return {

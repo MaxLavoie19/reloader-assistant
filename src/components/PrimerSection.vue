@@ -76,7 +76,6 @@
   import { IPrimerAutocompleteMapper } from '@/mappers/IPrimerAutocompleteMapper';
   import { IManufacturerRepository } from '@/repositories/ManufacturerRepository/IManufacturerRepository';
   import { IManufacturerAutocompleteMapper } from '@/mappers/IManufacturerAutocompleteMapper';
-import { map } from 'rxjs';
 
   const primerRepository = inject<IPrimerRepository>('primerRepository') as IPrimerRepository;
   const primerAutocompleteMapper = inject<IPrimerAutocompleteMapper>('primerAutocompleteMapper') as IPrimerAutocompleteMapper;
@@ -98,7 +97,7 @@ import { map } from 'rxjs';
   });
 
   function setPrimerItems(primer?: IPrimer) {
-    primerRepository.getPrimers().pipe(map((primers) => {
+    primerRepository.getPrimers().subscribe((primers) => {
       primerItems.value = primers.map((primer) => primerAutocompleteMapper.map(primer));
 
       if (primer) {
@@ -106,7 +105,7 @@ import { map } from 'rxjs';
           return item.value.id === primer.id;
         })?.value;
       }
-    }));
+    });
   }
 
   function addPrimer() {
@@ -119,7 +118,7 @@ import { map } from 'rxjs';
   }
 
   function setPrimerManufacturerItems(primer?: IPrimer) {
-    manufacturerRepository.getManufacturers().pipe(map((primerManufacturers) => {
+    manufacturerRepository.getManufacturers().subscribe((primerManufacturers) => {
       primerManufacturerItems.value = primerManufacturers.map((primer) => manufacturerAutocompleteMapper.map(primer));
 
       if (primer?.manufacturer) {
@@ -127,7 +126,7 @@ import { map } from 'rxjs';
           return item.value.name === primer.manufacturer.name;
         })?.value;
       }
-    }));
+    });
   }
 
   function addPrimerManufacturer() {

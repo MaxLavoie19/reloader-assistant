@@ -1,15 +1,16 @@
-import { creedmoor6_5Chambering, winchester308Chambering } from "@/data/chambering";
 import { IChambering } from "@/models/IChambering";
 import { ICaliberRepository } from "@/repositories/CaliberRepository/ICaliberRepository";
 import { IChamberingRepository } from "@/repositories/ChamberRepository/IChamberingRepository";
-import { Observable } from "rxjs";
+import { IApiService } from "@/services/ApiService/IApiService";
+import { Observable, tap } from "rxjs";
 import { uuid } from "vue-uuid";
 
 export class ChamberingRepository implements IChamberingRepository {
-  constructor(private caliberRepository: ICaliberRepository) { }
+  constructor(private caliberRepository: ICaliberRepository, private apiService: IApiService) { }
 
   public getChamberings(): Observable<IChambering[]> {
-    return new Observable((observer) => observer.next([creedmoor6_5Chambering, winchester308Chambering]));
+    const chamberings = this.apiService.getList<IChambering>("chamberings");
+    return chamberings;
   }
 
   public getEmptyChambering(): IChambering {

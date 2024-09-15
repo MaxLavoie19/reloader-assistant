@@ -28,7 +28,6 @@
 
   import { IRecipeRepository } from "@/repositories/RecipeRepository/IRecipeRepository";
   import { IRecipe } from "@/models/IRecipe";
-  import { map } from "rxjs";
 
   const recipeRepository = inject<IRecipeRepository>('recipeRepository') as IRecipeRepository;
 

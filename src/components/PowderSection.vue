@@ -65,7 +65,6 @@
   import { IPowder } from '@/models/IPowder';
   import { IManufacturerRepository } from '@/repositories/ManufacturerRepository/IManufacturerRepository';
   import { IPowderRepository } from '@/repositories/PowderRepository/IPowderRepository';
-import { map } from 'rxjs';
   import { inject, onMounted, ref } from 'vue';
 
 
@@ -88,7 +87,7 @@ import { map } from 'rxjs';
   });
 
   function setPowderItems(powder?: IPowder) {
-    powderRepository.getPowders().pipe(map((powders) => {
+    powderRepository.getPowders().subscribe((powders) => {
       powderItems.value = powders.map(powder => powderAutocompleteMapper.map(powder));
 
       if (powder) {
@@ -96,7 +95,7 @@ import { map } from 'rxjs';
           return item.value.id === powder.id;
         })?.value;
       }
-    }));
+    });
   }
 
   function addPowder() {
@@ -109,7 +108,7 @@ import { map } from 'rxjs';
   }
 
   function setPowderManufacturerItems(powder?: IPowder) {
-    manufacturerRepository.getManufacturers().pipe(map((powderManufacturers) => {
+    manufacturerRepository.getManufacturers().subscribe((powderManufacturers) => {
       powderManufacturerItems.value = powderManufacturers.map((powder) => manufacturerAutocompleteMapper.map(powder));
 
       if (powder?.manufacturer) {
@@ -117,7 +116,7 @@ import { map } from 'rxjs';
           return item.value.name === powder.manufacturer.name;
         })?.value;
       }
-    }));
+    });
   }
 
   function addPowderManufacturer() {

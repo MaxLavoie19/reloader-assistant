@@ -59,7 +59,6 @@
   import { IBrassAutocompleteMapper } from '@/mappers/IBrassAutocompleteMapper';
   import { IManufacturerRepository } from '@/repositories/ManufacturerRepository/IManufacturerRepository';
   import { IManufacturerAutocompleteMapper } from '@/mappers/IManufacturerAutocompleteMapper';
-import { map } from 'rxjs';
 
   const brassRepository = inject<IBrassRepository>('brassRepository') as IBrassRepository;
   const brassAutocompleteMapper = inject<IBrassAutocompleteMapper>('brassAutocompleteMapper') as IBrassAutocompleteMapper;
@@ -87,7 +86,7 @@ import { map } from 'rxjs';
   });
 
   function setBrassItems(brass?: IBrass): void {
-    brassRepository.getBrasses().pipe(map((brasses) => {
+    brassRepository.getBrasses().subscribe((brasses) => {
       brassItems.value = brasses.map((brass) => brassAutocompleteMapper.map(brass));
 
       if (brass) {
@@ -97,7 +96,7 @@ import { map } from 'rxjs';
       }
 
       filterBrasses();
-    }));
+    });
   }
 
   function updateChambering(): void {
@@ -135,9 +134,9 @@ import { map } from 'rxjs';
   }
 
   function setManufacturer(): void {
-    manufacturerRepository.getManufacturers().pipe(map((manufacturers) => {
+    manufacturerRepository.getManufacturers().subscribe((manufacturers) => {
       brassManufacturerItems.value = manufacturers.map(manufacturer => manufacturerAutocompleteMapper.map(manufacturer))
-    }));
+    });
   }
 
   function updateBrassManufacturer(): void {

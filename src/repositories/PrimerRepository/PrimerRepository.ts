@@ -1,12 +1,15 @@
-import { largePrimer } from "@/data/primer";
 import { IPrimer } from "@/models/IPrimer";
 import { IPrimerRepository } from "@/repositories/PrimerRepository/IPrimerRepository";
+import { IApiService } from "@/services/ApiService/IApiService";
 import { Observable } from "rxjs";
 import { uuid } from 'vue-uuid';
 
 export class PrimerRepository implements IPrimerRepository {
+  constructor(private apiService: IApiService) { }
+
   public getPrimers(): Observable<IPrimer[]> {
-    return new Observable((observer) => observer.next([largePrimer]));
+    const primers = this.apiService.getList<IPrimer>("primers");
+    return primers;
   }
   public getBlankPrimer(): IPrimer {
     return {
