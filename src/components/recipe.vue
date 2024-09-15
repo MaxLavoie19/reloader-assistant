@@ -11,11 +11,11 @@
       </div>
       <div class="details">
         <span class="detail-title">Bullet: </span>
-        <span class="detail-info">{{ `${recipe.bullet.manufacturer.name} ${recipe.bullet.model} ${recipe.bullet.weightInGrains}gr` }}</span>
+        <span class="detail-info">{{ `${recipe.bullet.manufacturer.name} ${recipe.bullet.model} ${recipe.bullet.weightInGrains}gn` }}</span>
       </div>
       <div class="details">
         <span class="detail-title">Powder: </span>
-        <span class="detail-info">{{ `${recipe.powderQuantityGrains}gr ${recipe.powder.manufacturer.name} ${recipe.powder.name}` }}</span>
+        <span class="detail-info">{{ `${recipe.maxPowderQuantityGrains}gr ${recipe.powder.manufacturer.name} ${recipe.powder.name}` }}</span>
       </div>
       <div class="details">
         <span class="detail-title">Primer: </span>

@@ -161,7 +161,6 @@ import { uuid } from 'vue-uuid';
   }
 
   function save() {
-    // TODO: validate that all fields are set
     const recipe = editedRecipe.value;
     const brass = brassValue.value;
     const bullet = bulletValue.value;

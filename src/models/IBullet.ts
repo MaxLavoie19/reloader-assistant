@@ -12,3 +12,15 @@ export interface IBullet {
   sectionalDensity?: number;
   barcode?: string;
 }
+
+export interface ISnakeBullet {
+  id: string;
+  caliber: ICaliber;
+  manufacturer: IManufacturer;
+  model: string;
+  weight_in_grains: number;
+  g1_ballistic_coefficient?: number;
+  g7_ballistic_coefficient?: number;
+  sectional_density?: number;
+  barcode?: string;
+}
