@@ -47,7 +47,7 @@ export class ApiService implements IApiService {
   getList<T>(targetType: string): Observable<T[]> {
     const requestOptions = {
       method: GET,
-      headers: HEADERS,
+      headers: {...HEADERS},
     }
 
     return this.sessionRepository.getToken().pipe(take(1), map((token) => {
@@ -71,8 +71,16 @@ export class ApiService implements IApiService {
   }
 
   post<T>(data: T): void {
-    this.sessionRepository.isLoggedIn().pipe(take(1), map((isLoggedIn) => {
-      if (!isLoggedIn) throw new NotAuthenticatedError();
+    const requestOptions = {
+      method: POST,
+      headers: HEADERS,
+      body: JSON.stringify(data),
+    }
+
+    this.sessionRepository.getToken().pipe(take(1), map((token) => {
+      if (!token) throw new NotAuthenticatedError();
+      requestOptions['headers']['Authorization'] = `Bearer ${token}`;
+      fetch(`http://localhost:8765/recipe`, requestOptions)
     })).subscribe();
   }
 }

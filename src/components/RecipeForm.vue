@@ -113,6 +113,7 @@
   import { IBullet } from '@/models/IBullet';
   import { IPrimer } from '@/models/IPrimer';
   import { IPowder } from '@/models/IPowder';
+import { uuid } from 'vue-uuid';
 
   const emit = defineEmits(['save'])
 
@@ -167,14 +168,13 @@
     const primer = primerValue.value;
     const powder = powderValue.value;
 
-    /* if (!recipe || !brass || !bullet || !primer || !powder) return;
+    if (!recipe || !brass || !bullet || !primer || !powder) return;
 
     recipe.id = uuid.v4()
     recipe.brass = brass;
     recipe.bullet = bullet;
     recipe.primer = primer;
     recipe.powder = powder;
-    */
 
     emit('save', recipe);
   }
