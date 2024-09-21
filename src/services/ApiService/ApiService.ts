@@ -37,14 +37,7 @@ export class ApiService implements IApiService {
     this.sessionRepository.logout();
   }
 
-  getById<T>(targetType: string, id: string): Observable<T> {
-    return this.sessionRepository.isLoggedIn().pipe(take(1), map((isLoggedIn) => {
-      if (!isLoggedIn) throw new NotAuthenticatedError();
-      return {} as T;
-    }));
-  }
-
-  getList<T>(targetType: string): Observable<T[]> {
+  getList<T>(destination: string): Observable<T[]> {
     const requestOptions = {
       method: GET,
       headers: {...HEADERS},
@@ -55,7 +48,7 @@ export class ApiService implements IApiService {
       requestOptions['headers']['Authorization'] = `Bearer ${token}`;
     }), switchMap(() => {
       return new Observable<T[]>((observer) => {
-        fetch(`http://localhost:8765/${targetType}`, requestOptions)
+        fetch(`http://localhost:8765/${destination}`, requestOptions)
         .then((response) => {
           if (response.status !== 200) {
             return Promise.reject();
@@ -70,17 +63,28 @@ export class ApiService implements IApiService {
   );
   }
 
-  post<T>(data: T): void {
+  post<T, U=T>(destination: string, data: T): Observable<U> {
     const requestOptions = {
       method: POST,
       headers: HEADERS,
       body: JSON.stringify(data),
     }
 
-    this.sessionRepository.getToken().pipe(take(1), map((token) => {
+    return this.sessionRepository.getToken().pipe(take(1), switchMap((token) => {
       if (!token) throw new NotAuthenticatedError();
       requestOptions['headers']['Authorization'] = `Bearer ${token}`;
-      fetch(`http://localhost:8765/recipe`, requestOptions)
-    })).subscribe();
+      return new Observable<U>((observer) => {
+        fetch(`http://localhost:8765/${destination}`, requestOptions)
+          .then((response) => {
+            if (response.status !== 200) {
+              return Promise.reject();
+            }
+            return response.json();
+          })
+          .then((response) => {
+            observer.next(response.data as U);
+          });
+      });
+    }));
   }
 }

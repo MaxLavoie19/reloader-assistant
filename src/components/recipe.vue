@@ -11,11 +11,11 @@
       </div>
       <div class="details">
         <span class="detail-title">Bullet: </span>
-        <span class="detail-info">{{ `${recipe.bullet.manufacturer.name} ${recipe.bullet.model} ${recipe.bullet.weightInGrains}gn` }}</span>
+        <span class="detail-info">{{ `${recipe.bullet.manufacturer.name} ${recipe.bullet.model} ${recipe.bullet.weightInGrains}Gn` }}</span>
       </div>
       <div class="details">
         <span class="detail-title">Powder: </span>
-        <span class="detail-info">{{ `${recipe.maxPowderQuantityGrains}gr ${recipe.powder.manufacturer.name} ${recipe.powder.name}` }}</span>
+        <span class="detail-info">{{ `${recipe.maxPowderQuantityGrains}Gn ${recipe.powder.manufacturer.name} ${recipe.powder.name}` }}</span>
       </div>
       <div class="details">
         <span class="detail-title">Primer: </span>
@@ -38,7 +38,7 @@
     <span class="buttons-container">
       <span class="buttons-column">
         <v-btn class="action-button" icon="mdi-content-copy" density="comfortable" elevation="4"></v-btn>
-        <v-btn class="action-button" icon="mdi-qrcode" density="comfortable" elevation="4"></v-btn>
+        <v-btn class="action-button" icon="mdi-qrcode" density="comfortable" elevation="4" @click="generateQr(recipe)"></v-btn>
         <v-btn class="action-button" icon="mdi-printer" density="comfortable" elevation="4"></v-btn>
       </span>
     </span>
@@ -47,10 +47,21 @@
 
 <script setup lang="ts">
   import { IRecipe } from "@/models/IRecipe";
+import { IApiService } from "@/services/ApiService/IApiService";
+import { inject } from "vue";
+
+  const apiService = inject('apiService') as IApiService;
 
   defineProps<{
     recipe: IRecipe,
   }>();
+
+  function generateQr(recipe: IRecipe) {
+    apiService.post<IRecipe, string>('recipe-qr-data', recipe)
+      .subscribe((qrData: string) => {
+        console.log('qrData', qrData);
+      });
+  }
 </script>
 
 <style scoped lang="scss">

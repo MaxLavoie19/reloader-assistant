@@ -22,6 +22,6 @@ export class RecipeRepository implements IRecipeRepository {
   }
 
   public saveRecipe(recipe: IRecipe): void {
-    this.apiService.post(recipe);
+    this.apiService.post('recipe', recipe).subscribe();
   }
 }

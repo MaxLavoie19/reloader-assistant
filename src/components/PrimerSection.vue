@@ -59,7 +59,7 @@
     <v-col cols="1"></v-col>
     <v-col cols="11">
       <v-text-field
-        label="taille de primer"
+        label="Taille de primer"
         v-model="model.size"
       ></v-text-field>
     </v-col>
